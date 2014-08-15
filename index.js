@@ -1,5 +1,6 @@
 var Factory = function() {},
-    Context = function() {};
+    Context = function() {},
+    LAZY_FN_TOKEN = 'A78F83FF-5E32-4410-B05A-2D84B786974A';
 
 
 /**
@@ -7,36 +8,49 @@ var Factory = function() {},
  */
 Factory.factories = {};
 
+/**
+ * attach lazy function token for later distinguishing.
+ * lazy functions will be evaluated before returning the resulting object
+ *
+ * @param {Function} fn
+ * @return {Function} with added token
+ */
+function makeLazyFn(fn) {
+    return fn[LAZY_FN_TOKEN] = true && fn;
+}
+
 
 Context.prototype = {
     seq: function(fn) {
-        var n = 0, lazyFn;
-        lazyFn = function seqFunction() {
+        var n = 0;
+        return makeLazyFn(function seqFunction() {
             if (!fn) return ++n;
             return fn.call(this, ++n);
-        };
-        lazyFn.__lazyFunction__ = true;
-        return lazyFn;
+        });
     },
     defer: function(fn) {
-        var lazyFn = function deferFunction() {
-             return fn.call(this);
-        };
-        lazyFn.__lazyFunction__ = true;
-        return lazyFn;
+        return makeLazyFn(function deferFunction() {
+            return fn.call(this);
+        });
+    },
+    factory: function(/* &more */) {
+        var args = arguments;
+        return makeLazyFn(function() {
+            return Factory.create.apply(Factory, args);
+        });
     }
 };
 
 /**
  * extends obj1 with props from obj2, obj3...
  */
-function extend(into/*, &more */) {
+function extend(into /*, &more */ ) {
     for (var i = 1; i < arguments.length; i++) {
-    for (var attrname in arguments[i]) {
-        if (arguments[i].hasOwnProperty(attrname)) {
-            into[attrname] = arguments[i][attrname];
+        for (var attrname in arguments[i]) {
+            if (arguments[i].hasOwnProperty(attrname)) {
+                into[attrname] = arguments[i][attrname];
+            }
         }
-    }
     }
     return into;
 }
@@ -68,7 +82,7 @@ Factory.create = function(name, attributes, options) {
 
     // eval all lazy functions
     for (var attribute in result) {
-        if (result[attribute].__lazyFunction__) {
+        if (result[attribute][LAZY_FN_TOKEN]) {
             result[attribute] = result[attribute]();
         }
     }

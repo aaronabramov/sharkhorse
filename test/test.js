@@ -74,5 +74,21 @@ describe('Factory', function() {
                 expect(Factory.create('test').a).to.equal(2);
             });
         });
+
+        describe('#factory', function() {
+            it('creates nested factory lazily', function() {
+                Factory.define('test', function() { return {a: 1}; });
+                Factory.define('test2', function() {
+                    return {
+                        d: 5,
+                        f: this.factory('test'),
+                        f2: this.factory('test', {a: 99})
+                    };
+                });
+
+                expect(Factory.create('test2').f).to.eql({a: 1});
+                expect(Factory.create('test2').f2).to.eql({a: 99});
+            });
+        });
     });
 });
