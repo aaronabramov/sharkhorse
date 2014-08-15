@@ -1,15 +1,27 @@
 ```javascript
-Factory.define('conversation', function() {
+Factory.define('message', function() {
     return {
-        id: this.seq(function(n) { return n; }),
-        date: this.defer(function() { return ~~(+new Date() / 1000); }),
-        messages: Factory.create('message'),
-        participants: Factory.create('participant'),
-        snippet: this.randomString({length: 100}),
-        subject: this.randomString({length: 10}),
-        total: this.random(1)
+        from: 'name',
+        body: this.seq(function(n) { return 'body_' + n; })
     };
 });
+
+Factory.define('conversation', function() {
+    return {
+        id: this.seq(),
+        date: this.defer(function() { return ~~(+new Date() / 1000); }),
+        messages: this.factory('message'),
+    };
+});
+
+Factory.create('conversation', {snippet: 'snippet'});
+// {id: 1, date: 1408118364, message: {from: 'name', body: 'body_1'}}
+
+Factory.create('conversation', {snippet: 'snippet'});
+// {id:, 2 date: 1408118931, message: {from: 'name', body: 'body_2'}}
+
+
+// TODO traits
 
 Factory('conversation').trait('with-no-participants', function() {
     // gets merged into 'conversation' factory'
@@ -17,8 +29,6 @@ Factory('conversation').trait('with-no-participants', function() {
         participants: []
     };
 });
-
-Factory.create('conversation', {snippet: 'snippet'});
 
 Factory.create('conversation', null, {traits: 'with-no-participants'});
 ```

@@ -89,6 +89,20 @@ describe('Factory', function() {
                 expect(Factory.create('test2').f).to.eql({a: 1});
                 expect(Factory.create('test2').f2).to.eql({a: 99});
             });
+
+            it('is lazy', function() {
+                Factory.define('test', function() { return {a: this.seq()}; });
+                Factory.define('test2', function() {
+                    return {
+                        d: 5,
+                        f: this.factory('test'),
+                    };
+                });
+                expect(Factory.create('test2').f).to.eql({a: 1});
+                // does not increment seq here as it's not evaluated
+                expect(Factory.create('test2', {f: {a: 555}}).f).to.eql({a: 555});
+                expect(Factory.create('test2').f).to.eql({a: 2});
+            });
         });
     });
 });
