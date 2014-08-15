@@ -31,4 +31,11 @@ Factory('conversation').trait('with-no-participants', function() {
 });
 
 Factory.create('conversation', null, {traits: 'with-no-participants'});
+
+// TODO:
+
+this.random(x, y) // => random number in a range from x to y
+this.uuid() // => uuidgen
+this.uniqId('seed') // => seed_{next_from_global_seq}
+this.randomString(length) // => random word/sentence/paragraph
 ```
