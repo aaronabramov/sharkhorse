@@ -14,11 +14,11 @@ Factory.define('conversation', function() {
     };
 });
 
-Factory.create('conversation', {snippet: 'snippet'});
+Factory.create('conversation');
 // {id: 1, date: 1408118364, message: {from: 'name', body: 'body_1'}}
 
-Factory.create('conversation', {snippet: 'snippet'});
-// {id:, 2 date: 1408118931, message: {from: 'name', body: 'body_2'}}
+Factory.create('conversation', {message: {from: 'aaa', body: 'bbb'});
+// {id:, 2 date: 1408118931, message: {from: 'aaa', body: 'bbb'}}
 
 
 // TODO traits
