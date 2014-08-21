@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dmitriiabramov/fractaljs.svg?branch=master)](https://travis-ci.org/dmitriiabramov/fractaljs)
+[![Sharkhorse](https://raw.githubusercontent.com/dmitriiabramov/sharkhorse/master/shark-horse.jpg)](https://raw.githubusercontent.com/dmitriiabramov/sharkhorse/master/shark-horse.jpg)
 ```javascript
 Factory.define('message', function() {
     return {
