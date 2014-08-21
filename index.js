@@ -1,4 +1,5 @@
 var uuid = require('node-uuid'),
+    PRNG = require('prng'),
     Factory = function() {},
     Context = function() {},
     LAZY_FN_TOKEN = 'A78F83FF-5E32-4410-B05A-2D84B786974A';
@@ -43,6 +44,17 @@ Context.prototype = {
     uuid: function() {
         return makeLazyFn(function() {
             return uuid.v4();
+        });
+    },
+    /**
+     * @param {Number} minimum value
+     * @param {Number} [maximum] value
+     * @return {Number} preudo random number between min and max val
+     */
+    rand: function(min, max) {
+        var prng = new PRNG();
+        return makeLazyFn(function() {
+            return prng.rand(min, max);
         });
     }
 };

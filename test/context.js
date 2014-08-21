@@ -116,4 +116,31 @@ describe('Context', function() {
             expect(Factory.create('test').a).to.match(/(\w{8}(-\w{4}){3}-\w{12}?)/);
         });
     });
+
+    describe('#rand', function() {
+        it('generates random number', function() {
+            var nums = {},
+                r,
+                TIMES = 100000,
+                RANGE = [-100, 100],
+                RATIO = (RANGE[1] - RANGE[0] + 1) / TIMES;
+
+            Factory.define('test', function() {
+                return {
+                    a: this.rand.apply(this, RANGE)
+                };
+            });
+
+            for (var i = 0; i < 10000; i++) {
+                r = Factory.create('test').a;
+                nums[r] || (nums[r] = 1);
+                expect(r).to.be.within(RANGE[0], RANGE[1]);
+            }
+
+            expect(Object.keys(nums).length).to.equal(RANGE[1] - RANGE[0] + 1);
+            for (r in nums) {
+                expect(nums[r] / TIMES).to.be.closeTo(RATIO, 0.01);
+            }
+        });
+    });
 });

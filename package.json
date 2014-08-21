@@ -13,6 +13,7 @@
     "mocha": "^1.21.4"
   },
   "dependencies": {
-    "node-uuid": "^1.4.1"
+    "node-uuid": "^1.4.1",
+    "prng": "0.0.1"
   }
 }
