@@ -27,6 +27,12 @@ Factory.create('conversation', {message: {from: 'aaa', body: 'bbb'});
 // {id:, 2 date: 1408118931, message: {from: 'aaa', body: 'bbb'}}
 
 
+// Other functions
+
+this.rand([min], max) // return random number from min (=0) to max
+this.uuid() // generates uuid
+
+
 // TODO traits
 
 Factory('conversation').trait('with-no-participants', function() {
@@ -40,8 +46,6 @@ Factory.create('conversation', null, {traits: 'with-no-participants'});
 
 // TODO:
 
-this.random(x, y) // => random number in a range from x to y
-this.uuid() // => uuidgen
 this.uniqId('seed') // => seed_{next_from_global_seq}
 this.randomString(length) // => random word/sentence/paragraph
 ```
