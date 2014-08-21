@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha ./test/*.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "chai": "^1.9.1",
     "mocha": "^1.21.4"
+  },
+  "dependencies": {
+    "node-uuid": "^1.4.1"
   }
 }

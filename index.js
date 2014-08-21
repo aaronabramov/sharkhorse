@@ -1,4 +1,5 @@
-var Factory = function() {},
+var uuid = require('node-uuid'),
+    Factory = function() {},
     Context = function() {},
     LAZY_FN_TOKEN = 'A78F83FF-5E32-4410-B05A-2D84B786974A';
 
@@ -37,6 +38,11 @@ Context.prototype = {
         var args = arguments;
         return makeLazyFn(function() {
             return Factory.create.apply(Factory, args);
+        });
+    },
+    uuid: function() {
+        return makeLazyFn(function() {
+            return uuid.v4();
         });
     }
 };
