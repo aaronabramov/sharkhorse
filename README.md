@@ -1,7 +1,7 @@
 [![Sharkhorse](https://raw.githubusercontent.com/dmitriiabramov/sharkhorse/master/shark-horse.jpg)](https://raw.githubusercontent.com/dmitriiabramov/sharkhorse/master/shark-horse.jpg)
 # Sharkhorse
 
-[![Build Status](https://travis-ci.org/dmitriiabramov/fractaljs.svg?branch=master)](https://travis-ci.org/dmitriiabramov/fractaljs)
+[![Build Status](https://travis-ci.org/dmitriiabramov/sharkhorse.svg?branch=master)](https://travis-ci.org/dmitriiabramov/sharkhorse)
 
 Test factories
 ```javascript
