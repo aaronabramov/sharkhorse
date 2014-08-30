@@ -45,7 +45,7 @@ Factory('conversation').trait('with-no-participants', function() {
 Factory.create('conversation', null, {traits: 'with-no-participants'});
 
 // TODO:
-
+this.factories(5, 'message', {from: 'aaa'}); // => array of 5 message factories
 this.uniqId('seed') // => seed_{next_from_global_seq}
 this.randomString(length) // => random word/sentence/paragraph
 ```
