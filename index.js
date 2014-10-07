@@ -107,6 +107,15 @@ Factory.create = function(name, attributes, options) {
     return result;
 };
 
+Factory.createMany = function(name, n) {
+    var result = [], i;
+
+    for (var i = 0; i < n; i++) {
+        result.push(Factory.create(name));
+    }
+    return result;
+};
+
 Factory.clear = function() {
     this.factories = {};
 };

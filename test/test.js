@@ -32,4 +32,24 @@ describe('Factory', function() {
             });
         });
     });
+
+    describe('#createMany', function() {
+        it('creates multiple factories', function() {
+            Factory.define('test', function() {
+                return {a: this.seq(), b: 6};
+            });
+
+            var factories = Factory.createMany('test', 5);
+            expect(factories.length).to.equal(5);
+            expect(factories[0]).to.eql({
+                a: 1,
+                b: 6
+            });
+
+            expect(factories[4]).to.eql({
+                a: 5,
+                b: 6
+            });
+        });
+    });
 });
