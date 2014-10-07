@@ -57,7 +57,6 @@ Context.prototype = {
      * @param {String} seed that will be taken as a base for produced id (e.g. seed_1, seed_2)
      */
     uniqId: function(seed) {
-        console.log(seed);
         return makeLazyFn(function() {
             return seed + '_' + (++uniqId);
         });
