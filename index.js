@@ -2,7 +2,9 @@ var uuid = require('node-uuid'),
     PRNG = require('prng'),
     Factory = function() {},
     Context = function() {},
-    LAZY_FN_TOKEN = 'A78F83FF-5E32-4410-B05A-2D84B786974A';
+    LAZY_FN_TOKEN = 'A78F83FF-5E32-4410-B05A-2D84B786974A',
+    // shared uniq id counter
+    uniqId = 0;
 
 
 /**
@@ -49,6 +51,15 @@ Context.prototype = {
     uuid: function() {
         return makeLazyFn(function() {
             return uuid.v4();
+        });
+    },
+    /**
+     * @param {String} seed that will be taken as a base for produced id (e.g. seed_1, seed_2)
+     */
+    uniqId: function(seed) {
+        console.log(seed);
+        return makeLazyFn(function() {
+            return seed + '_' + (++uniqId);
         });
     },
     /**

@@ -137,6 +137,36 @@ describe('Context', function() {
         });
     });
 
+    describe('#uniqId', function() {
+        it('generate unique string with based on seed value', function() {
+            Factory.define('test', function() {
+                return {
+                    name: this.uniqId('seed')
+                }
+            });
+
+            expect(Factory.create('test').name).to.equal('seed_1');
+            expect(Factory.create('test').name).to.equal('seed_2');
+        });
+
+        it('is shared across the factories', function() {
+            Factory.define('test', function() {
+                return {
+                    name: this.uniqId('seed')
+                }
+            });
+
+            Factory.define('test2', function() {
+                return {
+                    name: this.uniqId('seed')
+                }
+            });
+            // shady. shared counters
+            expect(Factory.create('test').name).to.equal('seed_3');
+            expect(Factory.create('test2').name).to.equal('seed_4');
+        });
+    });
+
     describe('#rand', function() {
         it('generates random number', function() {
             var nums = {},
