@@ -32,6 +32,7 @@ Factory.create('conversation', {message: {from: 'aaa', body: 'bbb'});
 this.rand([min], max) // return random number from min (=0) to max
 this.uuid() // generates uuid
 this.factories // create many factories. `this.factories('message', 5)` will create 5 message objects
+this.uniqId('seed') // => seed_{next_from_global_seq}
 
 
 // TODO traits
@@ -47,6 +48,5 @@ Factory.create('conversation', null, {traits: 'with-no-participants'});
 
 // TODO:
 this.factories(5, 'message', {from: 'aaa'}); // => array of 5 message factories with params
-this.uniqId('seed') // => seed_{next_from_global_seq}
 this.randomString(length) // => random word/sentence/paragraph
 ```
