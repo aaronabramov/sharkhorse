@@ -41,6 +41,11 @@ Context.prototype = {
             return Factory.create.apply(Factory, args);
         });
     },
+    factories: function(name, n) {
+        return makeLazyFn(function() {
+            return Factory.createMany(name, n);
+        });
+    },
     uuid: function() {
         return makeLazyFn(function() {
             return uuid.v4();

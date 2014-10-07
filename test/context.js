@@ -105,6 +105,26 @@ describe('Context', function() {
         });
     });
 
+    describe('#factories', function() {
+        it('creates multiple factories', function() {
+            Factory.define('test', function() {
+                return {
+                    a: 1
+                };
+            });
+            Factory.define('test2', function() {
+                return {
+                    d: 5,
+                    f: this.factories('test', 5)
+                };
+            });
+
+            var obj = Factory.create('test2');
+            expect(obj.f.length).to.equal(5);
+            expect(obj.f[4].a).to.equal(1);
+        });
+    });
+
     describe('#uuid', function() {
         it('generates uuid', function() {
             Factory.define('test', function() {
