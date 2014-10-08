@@ -26,6 +26,10 @@ Factory.create('conversation');
 Factory.create('conversation', {message: {from: 'aaa', body: 'bbb'});
 // {id:, 2 date: 1408118931, message: {from: 'aaa', body: 'bbb'}}
 
+Factory.createMany('conversation', 2);
+// {id: 1, date: 1408118364, message: {from: 'name', body: 'body_1'}}
+// {id: 2, date: 1408118931, message: {from: 'name', body: 'body_2'}}
+
 
 // Other functions
 
