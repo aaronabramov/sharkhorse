@@ -13,6 +13,37 @@ var uuid = require('node-uuid'),
 Sharkhorse.factories = {};
 
 /**
+ * Constructor for factory object
+ *
+ * @param {Object} obj factory function executed within the created context
+ */
+function Factory(obj) {
+    this.obj = obj;
+};
+
+Factory.prototype.create = function(attributes) {
+    var result = extend({}, this.obj, attributes);
+
+    // eval all lazy functions
+    for (var attribute in result) {
+        if (result[attribute][LAZY_FN_TOKEN]) {
+            result[attribute] = result[attribute]();
+        }
+    }
+    return result;
+};
+
+Factory.prototype.createMany = function(n) {
+    var result = [],
+        i;
+
+    for (var i = 0; i < n; i++) {
+        result.push(this.create());
+    }
+    return result;
+}
+
+/**
  * attach lazy function token for later distinguishing.
  * lazy functions will be evaluated before returning the resulting object
  *
@@ -97,12 +128,7 @@ Sharkhorse.define = function(name, fn) {
         fn = name;
         name = null;
     }
-    var context = new Context(),
-        factory = {
-            name: name,
-            obj: fn.call(context),
-            context: context
-        };
+    var factory = new Factory(fn.call(new Context()));
 
     if (name) {
         this.factories[name] = factory;
@@ -113,9 +139,8 @@ Sharkhorse.define = function(name, fn) {
 /**
  * @param {String,Sharkhorse} factory or it's name
  * @param {Object} attributes object attributes to overwrite defaults
- * @param {Object} options
  */
-Sharkhorse.create = function(factory, attributes, options) {
+Sharkhorse.create = function(factory, attributes) {
     var result;
 
     if (typeof factory === 'string') {
@@ -123,25 +148,19 @@ Sharkhorse.create = function(factory, attributes, options) {
     }
 
     if (!factory) throw new Error('bad factory argument (' + factory + ')');
-    result = extend({}, factory.obj, attributes);
-
-    // eval all lazy functions
-    for (var attribute in result) {
-        if (result[attribute][LAZY_FN_TOKEN]) {
-            result[attribute] = result[attribute]();
-        }
-    }
-    return result;
+    return factory.create(attributes);
 };
 
-Sharkhorse.createMany = function(name, n) {
-    var result = [],
-        i;
 
-    for (var i = 0; i < n; i++) {
-        result.push(Sharkhorse.create(name));
+/**
+ * @param {Factory,String} factory or it's name
+ */
+Sharkhorse.createMany = function(factory, n) {
+    if (typeof factory === 'string') {
+        factory = this.factories[factory];
     }
-    return result;
+
+    return factory.createMany(n);
 };
 
 Sharkhorse.clear = function() {

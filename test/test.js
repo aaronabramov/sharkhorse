@@ -51,6 +51,19 @@ describe('Factory', function() {
                 b: 9,
                 c: 1
             });
+
+        });
+
+        it('creates from factory object', function() {
+            var factory = Factory.define(function() {
+                return {
+                    a: this.seq()
+                }
+            });
+
+            expect(Factory.create(factory)).to.eql({
+                a: 1
+            });
         });
     });
 
