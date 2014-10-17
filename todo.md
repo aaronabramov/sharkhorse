@@ -1,3 +1,4 @@
+```js
 var item = require('./factories/item.js');
 
 /**
@@ -42,3 +43,4 @@ factory.create(null, 2);
 //         }
 //     },
 // }
+```
