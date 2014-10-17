@@ -51,5 +51,10 @@ Factory('conversation').trait('with-no-participants', function() {
 Factory.create('conversation', null, {traits: 'with-no-participants'});
 
 // TODO:
-this.randomString(length) // => random word/sentence/paragraph
+// this.randomString(length) // => random word/sentence/paragraph
+
+// create collection of key/value pairs in hashmap
+
+// define anonymous factories and require them as common js modules
+
 ```
