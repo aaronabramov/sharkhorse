@@ -1,6 +1,6 @@
 var uuid = require('node-uuid'),
     PRNG = require('prng'),
-    Factory = function() {},
+    Sharkhorse = function() {},
     Context = function() {},
     LAZY_FN_TOKEN = 'A78F83FF-5E32-4410-B05A-2D84B786974A',
     // shared uniq id counter
@@ -10,7 +10,7 @@ var uuid = require('node-uuid'),
 /**
  * factories storage
  */
-Factory.factories = {};
+Sharkhorse.factories = {};
 
 /**
  * attach lazy function token for later distinguishing.
@@ -37,15 +37,15 @@ Context.prototype = {
             return fn.call(this);
         });
     },
-    factory: function(/* &more */) {
+    factory: function( /* &more */ ) {
         var args = arguments;
         return makeLazyFn(function() {
-            return Factory.create.apply(Factory, args);
+            return Sharkhorse.create.apply(Sharkhorse, args);
         });
     },
     factories: function(name, n) {
         return makeLazyFn(function() {
-            return Factory.createMany(name, n);
+            return Sharkhorse.createMany(name, n);
         });
     },
     uuid: function() {
@@ -89,28 +89,40 @@ function extend(into /*, &more */ ) {
 }
 
 /**
- * @param {String} name factory name
+ * @param {String} [name] optional factory name
  * @param {Function} fn definition function
  */
-Factory.define = function(name, fn) {
-    var context = new Context();
+Sharkhorse.define = function(name, fn) {
+    if (typeof name === 'function') {
+        fn = name;
+        name = null;
+    }
+    var context = new Context(),
+        factory = {
+            name: name,
+            obj: fn.call(context),
+            context: context
+        };
 
-    this.factories[name] = {
-        name: name,
-        obj: fn.call(context),
-        context: context
-    };
+    if (name) {
+        this.factories[name] = factory;
+    }
+    return factory;
 };
 
 /**
- * @param {String} name factory name
+ * @param {String,Sharkhorse} factory or it's name
  * @param {Object} attributes object attributes to overwrite defaults
  * @param {Object} options
  */
-Factory.create = function(name, attributes, options) {
-    var factory = this.factories[name],
-        result;
-    if (!factory) throw new Error('factory ' + name + ' is not defined');
+Sharkhorse.create = function(factory, attributes, options) {
+    var result;
+
+    if (typeof factory === 'string') {
+        factory = this.factories[factory];
+    }
+
+    if (!factory) throw new Error('bad factory argument (' + factory + ')');
     result = extend({}, factory.obj, attributes);
 
     // eval all lazy functions
@@ -122,17 +134,18 @@ Factory.create = function(name, attributes, options) {
     return result;
 };
 
-Factory.createMany = function(name, n) {
-    var result = [], i;
+Sharkhorse.createMany = function(name, n) {
+    var result = [],
+        i;
 
     for (var i = 0; i < n; i++) {
-        result.push(Factory.create(name));
+        result.push(Sharkhorse.create(name));
     }
     return result;
 };
 
-Factory.clear = function() {
+Sharkhorse.clear = function() {
     this.factories = {};
 };
 
-module.exports = Factory;
+module.exports = Sharkhorse;
