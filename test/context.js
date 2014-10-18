@@ -1,10 +1,10 @@
 var expect = require('chai').expect,
-    Factory = require('../src/sharkhorse.js');
+    Factory = require('../src/factory.js');
 
 describe('Context', function() {
     describe('#seq', function() {
         it('returns seq of numbers', function() {
-            Factory.define('test', function() {
+            var f = Factory(function() {
                 return {
                     a: this.seq(function(n) {
                         return n;
@@ -12,22 +12,22 @@ describe('Context', function() {
                 };
             });
 
-            expect(Factory.create('test').a).to.equal(1);
-            expect(Factory.create('test').a).to.equal(2);
-            expect(Factory.create('test').a).to.equal(3);
+            expect(f.create('test').a).to.equal(1);
+            expect(f.create('test').a).to.equal(2);
+            expect(f.create('test').a).to.equal(3);
         });
 
         it('does not eval seq fn if its been overwritten', function() {
-            Factory.define('test', function() {
+            var f = Factory(function() {
                 return {
                     a: this.seq()
                 };
             });
-            expect(Factory.create('test').a).to.equal(1);
-            expect(Factory.create('test', {
+            expect(f.create().a).to.equal(1);
+            expect(f.create({
                 a: 5
             }).a).to.equal(5);
-            expect(Factory.create('test').a).to.equal(2);
+            expect(f.create().a).to.equal(2);
 
         });
     });
@@ -35,7 +35,7 @@ describe('Context', function() {
     describe('#defer', function() {
         it('execs deferred function on creation', function() {
             var counter = 0;
-            Factory.define('test', function() {
+            var f = Factory(function() {
                 return {
                     a: this.defer(function() {
                         return ++counter;
@@ -43,22 +43,22 @@ describe('Context', function() {
                 };
             });
 
-            expect(Factory.create('test').a).to.equal(1);
-            expect(Factory.create('test', {
+            expect(f.create().a).to.equal(1);
+            expect(f.create({
                 a: 5
             }).a).to.equal(5);
-            expect(Factory.create('test').a).to.equal(2);
+            expect(f.create().a).to.equal(2);
         });
     });
 
     describe('#factory', function() {
         it('creates nested factory lazily', function() {
-            var f1 = Factory.define(function() {
+            var f1 = Factory(function() {
                     return {
                         a: 1
                     };
                 }),
-                f2 = Factory.define(function() {
+                f2 = Factory(function() {
                     return {
                         d: 5,
                         f: this.factory(f1),
@@ -77,12 +77,12 @@ describe('Context', function() {
         });
 
         it('is lazy', function() {
-            var f1 = Factory.define('test', function() {
+            var f1 = Factory(function() {
                     return {
                         a: this.seq()
                     };
                 }),
-                f2 = Factory.define('test2', function() {
+                f2 = Factory(function() {
                     return {
                         d: 5,
                         f: this.factory(f1),
@@ -107,17 +107,17 @@ describe('Context', function() {
 
     describe('#factories', function() {
         it('creates multiple factories', function() {
-            var f1 = Factory.define(function() {
-                return {
-                    a: 1
-                };
-            }),
-            f2 = Factory.define(function() {
-                return {
-                    d: 5,
-                    f: this.factories(f1, 5)
-                };
-            });
+            var f1 = Factory(function() {
+                    return {
+                        a: 1
+                    };
+                }),
+                f2 = Factory(function() {
+                    return {
+                        d: 5,
+                        f: this.factories(f1, 5)
+                    };
+                });
 
             var obj = f2.create();
             expect(obj.f.length).to.equal(5);
@@ -127,43 +127,43 @@ describe('Context', function() {
 
     describe('#uuid', function() {
         it('generates uuid', function() {
-            Factory.define('test', function() {
+            var f = Factory(function() {
                 return {
                     a: this.uuid()
                 };
             });
 
-            expect(Factory.create('test').a).to.match(/(\w{8}(-\w{4}){3}-\w{12}?)/);
+            expect(f.create().a).to.match(/(\w{8}(-\w{4}){3}-\w{12}?)/);
         });
     });
 
     describe('#uniqId', function() {
         it('generate unique string with based on seed value', function() {
-            Factory.define('test', function() {
+            var f = Factory(function() {
                 return {
                     name: this.uniqId('seed')
                 }
             });
 
-            expect(Factory.create('test').name).to.equal('seed_1');
-            expect(Factory.create('test').name).to.equal('seed_2');
+            expect(f.create().name).to.equal('seed_1');
+            expect(f.create().name).to.equal('seed_2');
         });
 
         it('is shared across the factories', function() {
-            Factory.define('test', function() {
-                return {
-                    name: this.uniqId('seed')
-                }
-            });
+            var f1 = Factory(function() {
+                    return {
+                        name: this.uniqId('seed')
+                    }
+                }),
 
-            Factory.define('test2', function() {
-                return {
-                    name: this.uniqId('seed')
-                }
-            });
+                f2 = Factory(function() {
+                    return {
+                        name: this.uniqId('seed')
+                    }
+                });
             // shady. shared counters
-            expect(Factory.create('test').name).to.equal('seed_3');
-            expect(Factory.create('test2').name).to.equal('seed_4');
+            expect(f1.create().name).to.equal('seed_3');
+            expect(f2.create().name).to.equal('seed_4');
         });
     });
 
@@ -173,16 +173,15 @@ describe('Context', function() {
                 r,
                 TIMES = 100000,
                 RANGE = [-100, 100],
-                RATIO = (RANGE[1] - RANGE[0] + 1) / TIMES;
-
-            Factory.define('test', function() {
+                RATIO = (RANGE[1] - RANGE[0] + 1) / TIMES,
+                f = Factory(function() {
                 return {
                     a: this.rand.apply(this, RANGE)
                 };
             });
 
             for (var i = 0; i < 10000; i++) {
-                r = Factory.create('test').a;
+                r = f.create().a;
                 nums[r] || (nums[r] = 1);
                 expect(r).to.be.within(RANGE[0], RANGE[1]);
             }
