@@ -76,6 +76,8 @@ Conversation.createMany(5) // will return array containing 5 created objects
 
 - [`seq`](#seq)
 - [`defer`](#defer)
+- [`factory`](#factory)
+- [`factories`](#factories)
 
 <a name="seq" />
 #### `seq`
@@ -129,3 +131,45 @@ setTimeout(function() { console.log(F.create()); }, 100);
 // { timestamp: 1413671560509 }
 // { timestamp: 1413671560609 }
 ```
+
+<a name="factory" />
+#### `factory`
+creates object using given factory
+```js
+F1 = Factory(function() {
+    return {
+        f1Value: 'a'
+    };
+});
+
+F2 = Factory(function() {
+    return {
+        f2Value: 'b',
+        f1: this.factory(F1)
+    };
+});
+
+F2.create();
+// { f2Value: 'b', f1: { f1Value: 'a' } }
+
+```
+
+<a name="factories" />
+#### `factories`
+Same as [`factory`](#factory) but creates a collection of factories
+
+```js
+F2 = Factory(function() {
+    return {
+        f1Collection: this.factories(F1, 5)
+    };
+});
+F2.create();
+// { f1Collection:
+//    [ { f1Value: 'a' },
+//      { f1Value: 'a' },
+//      { f1Value: 'a' },
+//      { f1Value: 'a' },
+//      { f1Value: 'a' } ] }
+```
+
