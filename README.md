@@ -10,6 +10,8 @@
 ##### Creating Factories
 
 ```js
+var Factory = require('sharkhorse');
+
 var Message = Factory(function() {
     return {
         from: 'test_name',
@@ -79,7 +81,7 @@ Conversation.createMany(5) // will return array containing 5 created objects
 - [`factory`](#factory)
 - [`factories`](#factories)
 - [`uuid`](#uuid)
-- [`uniqId](#uniqid)
+- [`uniqId`](#uniqid)
 - [`rand`](#rand)
 
 -----------------------------
