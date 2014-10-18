@@ -5,28 +5,28 @@
 
 Test factories
 ```javascript
-Factory.define('message', function() {
+var Message = Factory(function() {
     return {
         from: 'name',
         body: this.seq(function(n) { return 'body_' + n; })
     };
 });
 
-Factory.define('conversation', function() {
+var Conversation = Factory(function() {
     return {
         id: this.seq(),
         date: this.defer(function() { return ~~(+new Date() / 1000); }),
-        messages: this.factory('message'),
+        messages: this.factory(Message),
     };
 });
 
-Factory.create('conversation');
+Conversation.create();
 // {id: 1, date: 1408118364, message: {from: 'name', body: 'body_1'}}
 
-Factory.create('conversation', {message: {from: 'aaa', body: 'bbb'});
+Conversation.create({message: {from: 'aaa', body: 'bbb'});
 // {id:, 2 date: 1408118931, message: {from: 'aaa', body: 'bbb'}}
 
-Factory.createMany('conversation', 2);
+Conversation.createMany(2);
 // {id: 1, date: 1408118364, message: {from: 'name', body: 'body_1'}}
 // {id: 2, date: 1408118931, message: {from: 'name', body: 'body_2'}}
 
@@ -41,14 +41,14 @@ this.uniqId('seed') // => seed_{next_from_global_seq}
 
 // TODO traits
 
-Factory('conversation').trait('with-no-participants', function() {
+Conversation.defineTrait('with-no-participants', function() {
     // gets merged into 'conversation' factory'
     return {
         participants: []
     };
 });
 
-Factory.create('conversation', null, {traits: 'with-no-participants'});
+> Factory.create('conversation', null, {traits: 'with-no-participants'});
 
 // TODO:
 // this.randomString(length) // => random word/sentence/paragraph
