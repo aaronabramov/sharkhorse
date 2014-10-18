@@ -5,6 +5,8 @@
 
 ### Javascript Test factories
 
+#### Summary
+
 ##### Creating Factories
 
 ```js
@@ -65,4 +67,63 @@ Conversation.create();
 //   randomUuid: '17292d41-f146-49f2-99f5-fd0717a01d84',
 //   uniqIdBasedOnSeedValue: 'some_seed_10',
 //   randomNumberFromOneToTen: 2 }
+
+
+Conversation.createMany(5) // will return array containing 5 created objects
+```
+
+#### Helper functions
+
+- [`seq`](#seq)
+- [`defer`](#defer)
+
+<a name="seq" />
+
+`this.seq` function will return incrementing numbers starting from 1 every time it's called
+
+```js
+var F = Factory(function() {
+    return {
+        id: this.seq()
+    };
+});
+
+F.createMany(5);
+// [ { id: 1 },
+//   { id: 2 },
+//   { id: 3 },
+//   { id: 4 },
+//   { id: 5 } ]
+
+```
+
+you can specify a function that will get generated number and return resulting value
+```js
+var F = Factory(function() {
+    return {
+        id: this.seq(function(n) { return n * 11; })
+    };
+});
+
+F.createMany(5);
+// [ { id: 11 },
+//   { id: 22 },
+//   { id: 33 },
+//   { id: 44 },
+//   { id: 55 } ]
+```
+
+<a name="defer" />
+`this.defer` takes another function as an argument and evaluates it during the factory object creation
+```js
+F = Factory(function() {
+    return {
+        timestamp: this.defer(Date.now)
+    };
+});
+
+F.create()
+setTimeout(function() { console.log(F.create()); }, 100);
+// { timestamp: 1413671560509 }
+// { timestamp: 1413671560609 }
 ```
