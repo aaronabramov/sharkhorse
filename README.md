@@ -79,6 +79,7 @@ Conversation.createMany(5) // will return array containing 5 created objects
 - [`factory`](#factory)
 - [`factories`](#factories)
 
+-----------------------------
 <a name="seq" />
 ### this.seq([fn])
 
@@ -116,6 +117,7 @@ F.createMany(5);
 //   { id: 55 } ]
 ```
 
+-----------------------------
 <a name="defer" />
 ### this.defer(fn)
 `this.defer` takes another function as an argument and evaluates it during the factory object creation
@@ -132,6 +134,7 @@ setTimeout(function() { console.log(F.create()); }, 100);
 // { timestamp: 1413671560609 }
 ```
 
+-----------------------------
 <a name="factory" />
 ### this.factory(Factory)
 creates object using given factory
@@ -154,6 +157,7 @@ F2.create();
 
 ```
 
+-----------------------------
 <a name="factories" />
 ### this.factories(Factory, n)
 Same as [`factory`](#factory) but creates a collection of factories
