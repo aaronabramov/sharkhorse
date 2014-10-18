@@ -3,7 +3,7 @@ var uuid = require('node-uuid'),
     LAZY_FN_TOKEN = require('./constants.js').LAZY_FN_TOKEN,
     uniqId = 0;
 
-function Context() {};
+function Context() {}
 
 /**
  * attach lazy function token for later distinguishing.
@@ -13,7 +13,8 @@ function Context() {};
  * @return {Function} with added token
  */
 function makeLazyFn(fn) {
-    return fn[LAZY_FN_TOKEN] = true && fn;
+    fn[LAZY_FN_TOKEN] = true && fn;
+    return fn;
 }
 
 
