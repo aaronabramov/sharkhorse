@@ -3,11 +3,11 @@
 
 [![Build Status](https://travis-ci.org/dmitriiabramov/sharkhorse.svg?branch=master)](https://travis-ci.org/dmitriiabramov/sharkhorse)
 
-### Javascript Test factories
+## Javascript Test factories
 
-#### Summary
+## Summary
 
-##### Creating Factories
+### Creating Factories
 
 ```js
 var Factory = require('sharkhorse');
@@ -20,7 +20,7 @@ var Message = Factory(function() {
 });
 ```
 
-##### Building objects from factories
+### Building objects from factories
 
 ```js
 Message.create();
@@ -31,7 +31,7 @@ Message.create({from: 'name', body: 'body'});
 // { from: 'name', body: 'body' }
 ```
 
-##### Helper functions
+### Helper functions
 
 ```js
 var Conversation = Factory(function() {
@@ -74,7 +74,7 @@ Conversation.create();
 Conversation.createMany(5) // will return array containing 5 created objects
 ```
 
-#### Helper functions
+## Helper functions
 
 - [`seq`](#seq)
 - [`defer`](#defer)
