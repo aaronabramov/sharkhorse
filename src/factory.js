@@ -1,13 +1,18 @@
 var extend = require('./utils.js').extend,
+    Context = require('./context.js'),
     LAZY_FN_TOKEN = require('./constants.js').LAZY_FN_TOKEN;
 
 /**
  * Constructor for factory object
  *
- * @param {Object} obj factory function executed within the created context
+ * @param {Function} fn definition function
  */
-function Factory(obj) {
-    this.obj = obj;
+function Factory(fn) {
+    if (this instanceof Factory) {
+        this.obj = fn.call(new Context());
+        return;
+    }
+    return new Factory(fn);
 };
 
 Factory.prototype.create = function(attributes) {
