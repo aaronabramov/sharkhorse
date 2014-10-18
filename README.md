@@ -78,6 +78,9 @@ Conversation.createMany(5) // will return array containing 5 created objects
 - [`defer`](#defer)
 - [`factory`](#factory)
 - [`factories`](#factories)
+- [`uuid`](#uuid)
+- [`uniqId](#uniqid)
+- [`rand`](#rand)
 
 -----------------------------
 <a name="seq" />
@@ -177,3 +180,67 @@ F2.create();
 //      { f1Value: 'a' } ] }
 ```
 
+-----------------------------
+<a name="uuid" />
+### this.uuid()
+generates uuid
+```js
+var F = Factory(function() {
+    return {
+        uuid: this.uuid()
+    };
+});
+
+F.create();
+// { uuid: '84dec142-4807-4233-8c75-93b2bf8f1f5f' }
+```
+
+-----------------------------
+<a name="uniqid" />
+### this.uniqId(seed)
+generates unique string based on provided seed
+
+```js
+var F1 = Factory(function() {
+    return {
+        f1Id: this.uniqId('seed')
+    };
+});
+
+var F2 = Factory(function() {
+    return {
+        f2Id: this.uniqId('seed')
+    };
+});
+
+F1.createMany(3);
+F2.createMany(3);
+
+// [ { f1Id: 'seed_1' },
+//   { f1Id: 'seed_2' },
+//   { f1Id: 'seed_3' } ]
+// [ { f2Id: 'seed_4' },
+//   { f2Id: 'seed_5' },
+//   { f2Id: 'seed_6' } ]
+```
+
+-----------------------------
+<a name="rand" />
+### this.rand(min, max)
+generates random number in a range from `min` to `max`. generated numers are pseudo random, that means that the same
+numbers will be generated if you run your tests twice
+
+```js
+var F = Factory(function() {
+    return {
+        rand: this.rand(1, 9999)
+    };
+});
+
+F.createMany(5);
+// [ { rand: 3724 },
+//   { rand: 799 },
+//   { rand: 7038 },
+//   { rand: 2226 },
+//   { rand: 2067 } ]
+```
