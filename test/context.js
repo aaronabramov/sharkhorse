@@ -1,5 +1,5 @@
 var expect = require('chai').expect,
-    Factory = require('../index.js');
+    Factory = require('../src/sharkhorse.js');
 
 describe('Context', function() {
     describe('#seq', function() {
@@ -53,53 +53,53 @@ describe('Context', function() {
 
     describe('#factory', function() {
         it('creates nested factory lazily', function() {
-            Factory.define('test', function() {
-                return {
-                    a: 1
-                };
-            });
-            Factory.define('test2', function() {
-                return {
-                    d: 5,
-                    f: this.factory('test'),
-                    f2: this.factory('test', {
-                        a: 99
-                    })
-                };
-            });
+            var f1 = Factory.define(function() {
+                    return {
+                        a: 1
+                    };
+                }),
+                f2 = Factory.define(function() {
+                    return {
+                        d: 5,
+                        f: this.factory(f1),
+                        f2: this.factory(f1, {
+                            a: 99
+                        })
+                    };
+                });
 
-            expect(Factory.create('test2').f).to.eql({
+            expect(f2.create().f).to.eql({
                 a: 1
             });
-            expect(Factory.create('test2').f2).to.eql({
+            expect(f2.create().f2).to.eql({
                 a: 99
             });
         });
 
         it('is lazy', function() {
-            Factory.define('test', function() {
-                return {
-                    a: this.seq()
-                };
-            });
-            Factory.define('test2', function() {
-                return {
-                    d: 5,
-                    f: this.factory('test'),
-                };
-            });
-            expect(Factory.create('test2').f).to.eql({
+            var f1 = Factory.define('test', function() {
+                    return {
+                        a: this.seq()
+                    };
+                }),
+                f2 = Factory.define('test2', function() {
+                    return {
+                        d: 5,
+                        f: this.factory(f1),
+                    };
+                });
+            expect(f2.create().f).to.eql({
                 a: 1
             });
             // does not increment seq here as it's not evaluated
-            expect(Factory.create('test2', {
+            expect(f2.create({
                 f: {
                     a: 555
                 }
             }).f).to.eql({
                 a: 555
             });
-            expect(Factory.create('test2').f).to.eql({
+            expect(f2.create().f).to.eql({
                 a: 2
             });
         });
@@ -107,19 +107,19 @@ describe('Context', function() {
 
     describe('#factories', function() {
         it('creates multiple factories', function() {
-            Factory.define('test', function() {
+            var f1 = Factory.define(function() {
                 return {
                     a: 1
                 };
-            });
-            Factory.define('test2', function() {
+            }),
+            f2 = Factory.define(function() {
                 return {
                     d: 5,
-                    f: this.factories('test', 5)
+                    f: this.factories(f1, 5)
                 };
             });
 
-            var obj = Factory.create('test2');
+            var obj = f2.create();
             expect(obj.f.length).to.equal(5);
             expect(obj.f[4].a).to.equal(1);
         });

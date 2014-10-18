@@ -15,5 +15,6 @@
   "dependencies": {
     "node-uuid": "^1.4.1",
     "prng": "0.0.1"
-  }
+  },
+  "main": "./src/sharkhorse.js"
 }

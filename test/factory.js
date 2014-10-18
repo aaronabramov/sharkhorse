@@ -29,7 +29,6 @@ describe('Factory', function() {
             }, {
                 a: 2
             }]);
-
         });
     });
 });

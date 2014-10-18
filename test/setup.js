@@ -1,2 +1,2 @@
-var Factory = require('../index.js');
+var Factory = require('../');
 beforeEach(Factory.clear);

@@ -1,5 +1,5 @@
 var expect = require('chai').expect,
-    Factory = require('../index.js');
+    Factory = require('../');
 
 describe('Factory', function() {
     afterEach(function() {
