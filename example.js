@@ -18,5 +18,11 @@ var Conversation = Factory(function() {
     }
 });
 
+var F = Factory(function() {
+    return {
+        random: this.defer(Math.random)
+    };
+});
 
 console.log(Conversation.create());
+console.log(F.create());
