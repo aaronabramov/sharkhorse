@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/dmitriiabramov/sharkhorse.svg?branch=master)](https://travis-ci.org/dmitriiabramov/sharkhorse)
 
-Test factories
+##### Javascript Test factories
 ```javascript
 var Message = Factory(function() {
     return {
