@@ -78,6 +78,7 @@ Conversation.createMany(5) // will return array containing 5 created objects
 - [`defer`](#defer)
 
 <a name="seq" />
+#### `seq`
 
 `this.seq` function will return incrementing numbers starting from 1 every time it's called
 
@@ -114,6 +115,7 @@ F.createMany(5);
 ```
 
 <a name="defer" />
+#### `defer`
 `this.defer` takes another function as an argument and evaluates it during the factory object creation
 ```js
 F = Factory(function() {
