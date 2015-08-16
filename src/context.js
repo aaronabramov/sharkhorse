@@ -38,7 +38,7 @@ Context.prototype = {
     },
     factories: function(factory, n) {
         return makeLazyFn(function() {
-            return factory.buildMany(n);
+            return factory.buildList(n);
         });
     },
     uuid: function() {

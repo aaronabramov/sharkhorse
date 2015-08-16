@@ -36,7 +36,7 @@ describe('Factory', function() {
         });
     });
 
-    describe('#buildMany', function() {
+    describe('#buildList', function() {
         it('builds many factories', function() {
             var f = Factory(function() {
                 return {
@@ -44,7 +44,7 @@ describe('Factory', function() {
                 };
             });
 
-            expect(f.buildMany(2)).to.eql([{
+            expect(f.buildList(2)).to.eql([{
                 a: 1
             }, {
                 a: 2

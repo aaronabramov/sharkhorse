@@ -97,7 +97,7 @@ var F = Factory(function() {
     };
 });
 
-F.buildMany(5);
+F.buildList(5);
 // [ { id: 1 },
 //   { id: 2 },
 //   { id: 3 },
@@ -114,7 +114,7 @@ var F = Factory(function() {
     };
 });
 
-F.buildMany(5);
+F.buildList(5);
 // [ { id: 11 },
 //   { id: 22 },
 //   { id: 33 },
@@ -215,8 +215,8 @@ var F2 = Factory(function() {
     };
 });
 
-F1.buildMany(3);
-F2.buildMany(3);
+F1.buildList(3);
+F2.buildList(3);
 
 // [ { f1Id: 'seed_1' },
 //   { f1Id: 'seed_2' },
@@ -239,7 +239,7 @@ var F = Factory(function() {
     };
 });
 
-F.buildMany(5);
+F.buildList(5);
 // [ { rand: 3724 },
 //   { rand: 799 },
 //   { rand: 7038 },
@@ -251,7 +251,8 @@ F.buildMany(5);
 
 #### v2.0.0-alpha (development version)
 
-* **Breaking change**: Rename `create` and `createMany` method to `build` and `buildMany` as `create` method will be used for database persistence.
+* **Breaking change**: Rename `create` method to `build` as `create` method will be used for database persistence.
+* **Breaking change**: Rename `createMany` to `buildList` according `create` method change and to have more rails-like style.
 
 
 **No changelog prior to version v2.0.0**

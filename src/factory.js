@@ -27,7 +27,7 @@ Factory.prototype.build = function(attributes) {
     return result;
 };
 
-Factory.prototype.buildMany = function(n) {
+Factory.prototype.buildList = function(n) {
     var result = [],
         i;
 
