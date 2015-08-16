@@ -3,9 +3,9 @@ var item = require('./factories/item.js');
 
 /**
  * @param {Object} opts
- * @param {Number} opts.item number of subitems to create
+ * @param {Number} opts.item number of subitems to build
  */
-var factory = Factory.create(function(_, opts) {
+var factory = Factory.build(function(_, opts) {
     var result = {
         keyOne: {},
         keyTwo: {}
@@ -15,16 +15,16 @@ var factory = Factory.create(function(_, opts) {
         var item;
 
         for (var i = 0; i < opts.items, i++) {
-            item = item.create();
+            item = item.build();
             keyOne[item.id] = item;
-            item = item.create();
+            item = item.build();
             keyTwo[item.id] = item;
         }
     });
 });
 
 
-factory.create(null, 2);
+factory.build(null, 2);
 // {
 //     keyOne: {
 //         '1': {

@@ -12,9 +12,9 @@ describe('Context', function() {
                 };
             });
 
-            expect(f.create('test').a).to.equal(1);
-            expect(f.create('test').a).to.equal(2);
-            expect(f.create('test').a).to.equal(3);
+            expect(f.build('test').a).to.equal(1);
+            expect(f.build('test').a).to.equal(2);
+            expect(f.build('test').a).to.equal(3);
         });
 
         it('does not eval seq fn if its been overwritten', function() {
@@ -23,11 +23,11 @@ describe('Context', function() {
                     a: this.seq()
                 };
             });
-            expect(f.create().a).to.equal(1);
-            expect(f.create({
+            expect(f.build().a).to.equal(1);
+            expect(f.build({
                 a: 5
             }).a).to.equal(5);
-            expect(f.create().a).to.equal(2);
+            expect(f.build().a).to.equal(2);
 
         });
     });
@@ -43,16 +43,16 @@ describe('Context', function() {
                 };
             });
 
-            expect(f.create().a).to.equal(1);
-            expect(f.create({
+            expect(f.build().a).to.equal(1);
+            expect(f.build({
                 a: 5
             }).a).to.equal(5);
-            expect(f.create().a).to.equal(2);
+            expect(f.build().a).to.equal(2);
         });
     });
 
     describe('#factory', function() {
-        it('creates nested factory lazily', function() {
+        it('builds nested factory lazily', function() {
             var f1 = Factory(function() {
                     return {
                         a: 1
@@ -68,10 +68,10 @@ describe('Context', function() {
                     };
                 });
 
-            expect(f2.create().f).to.eql({
+            expect(f2.build().f).to.eql({
                 a: 1
             });
-            expect(f2.create().f2).to.eql({
+            expect(f2.build().f2).to.eql({
                 a: 99
             });
         });
@@ -88,25 +88,25 @@ describe('Context', function() {
                         f: this.factory(f1),
                     };
                 });
-            expect(f2.create().f).to.eql({
+            expect(f2.build().f).to.eql({
                 a: 1
             });
             // does not increment seq here as it's not evaluated
-            expect(f2.create({
+            expect(f2.build({
                 f: {
                     a: 555
                 }
             }).f).to.eql({
                 a: 555
             });
-            expect(f2.create().f).to.eql({
+            expect(f2.build().f).to.eql({
                 a: 2
             });
         });
     });
 
     describe('#factories', function() {
-        it('creates multiple factories', function() {
+        it('builds multiple factories', function() {
             var f1 = Factory(function() {
                     return {
                         a: 1
@@ -119,7 +119,7 @@ describe('Context', function() {
                     };
                 });
 
-            var obj = f2.create();
+            var obj = f2.build();
             expect(obj.f.length).to.equal(5);
             expect(obj.f[4].a).to.equal(1);
         });
@@ -133,7 +133,7 @@ describe('Context', function() {
                 };
             });
 
-            expect(f.create().a).to.match(/(\w{8}(-\w{4}){3}-\w{12}?)/);
+            expect(f.build().a).to.match(/(\w{8}(-\w{4}){3}-\w{12}?)/);
         });
     });
 
@@ -145,8 +145,8 @@ describe('Context', function() {
                 }
             });
 
-            expect(f.create().name).to.equal('seed_1');
-            expect(f.create().name).to.equal('seed_2');
+            expect(f.build().name).to.equal('seed_1');
+            expect(f.build().name).to.equal('seed_2');
         });
 
         it('is shared across the factories', function() {
@@ -162,8 +162,8 @@ describe('Context', function() {
                     }
                 });
             // shady. shared counters
-            expect(f1.create().name).to.equal('seed_3');
-            expect(f2.create().name).to.equal('seed_4');
+            expect(f1.build().name).to.equal('seed_3');
+            expect(f2.build().name).to.equal('seed_4');
         });
     });
 
@@ -181,7 +181,7 @@ describe('Context', function() {
             });
 
             for (var i = 0; i < 10000; i++) {
-                r = f.create().a;
+                r = f.build().a;
                 nums[r] || (nums[r] = 1);
                 expect(r).to.be.within(RANGE[0], RANGE[1]);
             }

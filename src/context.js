@@ -33,12 +33,12 @@ Context.prototype = {
     },
     factory: function(factory, attrs) {
         return makeLazyFn(function() {
-            return factory.create(attrs);
+            return factory.build(attrs);
         });
     },
     factories: function(factory, n) {
         return makeLazyFn(function() {
-            return factory.createMany(n);
+            return factory.buildList(n);
         });
     },
     uuid: function() {
