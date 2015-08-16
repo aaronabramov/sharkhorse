@@ -3,14 +3,14 @@ var Factory = require('../'),
 
 describe('Factory', function() {
     describe('constructor', function() {
-        it('creates factory', function() {
+        it('builds factory', function() {
             var f = Factory(function() {
                 return {
                     a: this.seq()
                 };
             });
 
-            expect(f.create()).to.eql({
+            expect(f.build()).to.eql({
                 a: 1
             });
         });
@@ -23,7 +23,7 @@ describe('Factory', function() {
                 };
             });
 
-            var obj = f.create({
+            var obj = f.build({
                 b: 9,
                 c: 1
             });
@@ -36,15 +36,15 @@ describe('Factory', function() {
         });
     });
 
-    describe('#createMany', function() {
-        it('creates many factories', function() {
+    describe('#buildMany', function() {
+        it('builds many factories', function() {
             var f = Factory(function() {
                 return {
                     a: this.seq()
                 };
             });
 
-            expect(f.createMany(2)).to.eql([{
+            expect(f.buildMany(2)).to.eql([{
                 a: 1
             }, {
                 a: 2

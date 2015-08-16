@@ -24,5 +24,5 @@ var F = Factory(function() {
     };
 });
 
-console.log(Conversation.create());
-console.log(F.create());
+console.log(Conversation.build());
+console.log(F.build());

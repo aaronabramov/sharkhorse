@@ -23,11 +23,11 @@ var Message = Factory(function() {
 ### Building objects from factories
 
 ```js
-Message.create();
+Message.build();
 // { from: 'test_name', body: 'test_body' }
 
 // overwrite attributes
-Message.create({from: 'name', body: 'body'});
+Message.build({from: 'name', body: 'body'});
 // { from: 'name', body: 'body' }
 ```
 
@@ -58,7 +58,7 @@ var Participant = Factory(function() {
     };
 });
 
-Conversation.create();
+Conversation.build();
 // { id: 1,
 //   someFunctionResult: 1413670721071,
 //   anotherFactory: { name: 'mailbox_name_6' },
@@ -71,7 +71,7 @@ Conversation.create();
 //   randomNumberFromOneToTen: 2 }
 
 
-Conversation.createMany(5) // will return array containing 5 created objects
+Conversation.buildMany(5) // will return array containing 5 built objects
 ```
 
 ## Helper functions
@@ -97,7 +97,7 @@ var F = Factory(function() {
     };
 });
 
-F.createMany(5);
+F.buildMany(5);
 // [ { id: 1 },
 //   { id: 2 },
 //   { id: 3 },
@@ -114,7 +114,7 @@ var F = Factory(function() {
     };
 });
 
-F.createMany(5);
+F.buildMany(5);
 // [ { id: 11 },
 //   { id: 22 },
 //   { id: 33 },
@@ -133,8 +133,8 @@ F = Factory(function() {
     };
 });
 
-F.create()
-setTimeout(function() { console.log(F.create()); }, 100);
+F.build()
+setTimeout(function() { console.log(F.build()); }, 100);
 // { timestamp: 1413671560509 }
 // { timestamp: 1413671560609 }
 ```
@@ -142,7 +142,7 @@ setTimeout(function() { console.log(F.create()); }, 100);
 -----------------------------
 <a name="factory" />
 ### this.factory(Factory)
-creates object using given factory
+builds object using given factory
 ```js
 F1 = Factory(function() {
     return {
@@ -157,7 +157,7 @@ F2 = Factory(function() {
     };
 });
 
-F2.create();
+F2.build();
 // { f2Value: 'b', f1: { f1Value: 'a' } }
 
 ```
@@ -165,7 +165,7 @@ F2.create();
 -----------------------------
 <a name="factories" />
 ### this.factories(Factory, n)
-Same as [`factory`](#factory) but creates a collection of factories
+Same as [`factory`](#factory) but builds a collection of factories
 
 ```js
 F2 = Factory(function() {
@@ -173,7 +173,7 @@ F2 = Factory(function() {
         f1Collection: this.factories(F1, 5)
     };
 });
-F2.create();
+F2.build();
 // { f1Collection:
 //    [ { f1Value: 'a' },
 //      { f1Value: 'a' },
@@ -193,7 +193,7 @@ var F = Factory(function() {
     };
 });
 
-F.create();
+F.build();
 // { uuid: '84dec142-4807-4233-8c75-93b2bf8f1f5f' }
 ```
 
@@ -215,8 +215,8 @@ var F2 = Factory(function() {
     };
 });
 
-F1.createMany(3);
-F2.createMany(3);
+F1.buildMany(3);
+F2.buildMany(3);
 
 // [ { f1Id: 'seed_1' },
 //   { f1Id: 'seed_2' },
@@ -239,7 +239,7 @@ var F = Factory(function() {
     };
 });
 
-F.createMany(5);
+F.buildMany(5);
 // [ { rand: 3724 },
 //   { rand: 799 },
 //   { rand: 7038 },
@@ -250,5 +250,8 @@ F.createMany(5);
 ## Changelog
 
 #### v2.0.0-alpha (development version)
+
+* **Breaking change**: Rename `create` and `createMany` method to `build` and `buildMany` as `create` method will be used for database persistence.
+
 
 **No changelog prior to version v2.0.0**

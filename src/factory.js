@@ -15,7 +15,7 @@ function Factory(fn) {
     return new Factory(fn);
 }
 
-Factory.prototype.create = function(attributes) {
+Factory.prototype.build = function(attributes) {
     var result = extend({}, this.obj, attributes);
 
     // eval all lazy functions
@@ -27,12 +27,12 @@ Factory.prototype.create = function(attributes) {
     return result;
 };
 
-Factory.prototype.createMany = function(n) {
+Factory.prototype.buildMany = function(n) {
     var result = [],
         i;
 
     for (i = 0; i < n; i++) {
-        result.push(this.create());
+        result.push(this.build());
     }
     return result;
 };
