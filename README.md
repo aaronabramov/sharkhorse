@@ -246,3 +246,9 @@ F.createMany(5);
 //   { rand: 2226 },
 //   { rand: 2067 } ]
 ```
+
+## Changelog
+
+#### v2.0.0-alpha (development version)
+
+**No changelog prior to version v2.0.0**
