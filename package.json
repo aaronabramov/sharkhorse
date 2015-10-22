@@ -4,11 +4,12 @@
   "description": "",
   "main": "./src/factory.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha ./test/*.js && ./node_modules/jshint/bin/jshint ./src/*.js"
+    "test": "./node_modules/mocha/bin/mocha --compilers js:babel/register test/**/*_test.js"
   },
-  "author": "",
+  "author": "Dmitrii Abramov",
   "license": "MIT",
   "devDependencies": {
+    "babel": "^5.8.23",
     "chai": "^1.9.1",
     "jshint": "^2.5.6",
     "mocha": "^1.21.4"

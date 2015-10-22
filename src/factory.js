@@ -1,6 +1,6 @@
-var extend = require('./utils.js').extend,
-    Context = require('./context.js'),
-    LAZY_FN_TOKEN = require('./constants.js').LAZY_FN_TOKEN;
+import {extend, deepMap} from './utils.js';
+import Context from './context.js';
+import {LAZY_FN_TOKEN} from './constants';
 
 /**
  * Constructor for factory object
