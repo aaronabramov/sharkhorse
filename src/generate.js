@@ -1,14 +1,10 @@
-import uuid from 'node-uuid';
-import PRNG from 'prng';
-import {LAZY_FN_TOKEN} from './constants.js';
-
 import Sequence from './generators/sequence';
-
-let uniqId = 0;
+import Email from './generators/email';
 
 const GENERATORS = {
-    sequence: Sequence
-}
+    sequence: Sequence,
+    email: Email
+};
 
 export default function generate(name) {
     let Generator = GENERATORS[name];

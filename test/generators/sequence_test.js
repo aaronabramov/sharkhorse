@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import Factory, {generate} from '../../';
 
-describe.only('generators/sequence', function() {
+describe('generators/sequence', function() {
     it('generates a sequence', function() {
         let F = Factory({
             id: generate('sequence')
