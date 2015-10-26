@@ -1,9 +1,11 @@
 import Sequence from './generators/sequence';
 import Email from './generators/email';
+import Name from './generators/name';
 
 const GENERATORS = {
     sequence: Sequence,
-    email: Email
+    email: Email,
+    name: Name
 };
 
 export default function generate(name) {
