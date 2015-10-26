@@ -47,12 +47,30 @@ describe('utils', function() {
     });
 
     describe('#deepAssign', function() {
-        it.only('merges nodes', function() {
+        it('merges nodes', function() {
             let dest = {a: {b: {c: 5, d: 6}}};
             let src = {a: {b: {d: 1}}};
 
             expect(utils.deepAssign(dest, src)).to.deep.equal({
                 a: {b: {c: 5, d: 1}}
+            });
+        });
+
+        it('overwrites the object', function() {
+            let dest = {a: {b: {c: 5, d: 6}}};
+            let src = {a: {b: 4}};
+
+            expect(utils.deepAssign(dest, src)).to.deep.equal({
+                a: {b: 4}
+            });
+        });
+
+        it('adds non exsiting props', function() {
+            let dest = {a: {b: {c: 5, d: 6}}};
+            let src = {a: {d: 4}};
+
+            expect(utils.deepAssign(dest, src)).to.deep.equal({
+                a: {d: 4, b: {c: 5, d: 6}}
             });
         });
     });

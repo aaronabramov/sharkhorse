@@ -11,6 +11,9 @@ export function extend(into /*, &more */ ) {
 }
 
 export function deepMap(obj, replace) {
+    if (!replace) {
+        replace = (value) => { return value; };
+    }
     obj = replace(obj);
 
     if (obj.constructor === Array) {
@@ -40,7 +43,8 @@ export function deepAssign(dest, src) {
     Object.keys(src).forEach((key) => {
         if (dest.hasOwnProperty(key) &&
             dest[key] !== null &&
-            typeof dest[key] === 'object'
+            typeof dest[key] === 'object' &&
+            typeof src[key] === 'object'
            ) {
                result[key] = deepAssign(dest[key], src[key]);
 
