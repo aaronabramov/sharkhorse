@@ -2,12 +2,14 @@ import Sequence from './generators/sequence';
 import Email from './generators/email';
 import Name from './generators/name';
 import Lorem from './generators/lorem';
+import Number_ from './generators/number';
 
 const GENERATORS = {
-    sequence: Sequence,
     email: Email,
+    lorem: Lorem,
     name: Name,
-    lorem: Lorem
+    number: Number_,
+    sequence: Sequence
 };
 
 export default function generate(name) {
