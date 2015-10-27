@@ -1,47 +1,25 @@
-import {extend, deepMap, deepAssign} from './utils.js';
+import {extend, deepMap} from './utils.js';
 import BaseGenerator from './generators/base';
 
-export const generate = require('./generate');
+export function create(descriptor, attributes) {
+    let result = extend({}, descriptor, attributes);
 
-/**
- * Constructor for factory object
- */
-export default function(descriptor) {
-    return new Factory(descriptor);
+    return deepMap(result, (node) => {
+        if (node instanceof BaseGenerator) {
+            return node._generate();
+        }
+
+        return node;
+    });
 }
 
-class Factory {
-    constructor(descriptor) {
-        this.descriptor = descriptor;
+export function createMany(descriptor, n) {
+    let result = [];
+    let i;
+
+    for (i = 0; i < n; i++) {
+        result.push(create(descriptor));
     }
 
-    create(attributes = {}) {
-        let result = extend({}, this.descriptor, attributes);
-
-        // eval all lazy functions
-        for (var attribute in result) {
-            if (result[attribute] instanceof BaseGenerator) {
-                result[attribute] = result[attribute]._generate();
-            }
-        }
-
-        return result;
-    }
-
-    createMany(n) {
-        let result = [];
-        let i;
-
-        for (i = 0; i < n; i++) {
-            result.push(this.create());
-        }
-        return result;
-    }
-
-    extend(extendFn) {
-        let result = deepMap(this.descriptor);
-        let extendedObj = extendFn.call(null, result) || result;
-
-        return Factory(extendedObj);
-    }
+    return result;
 }

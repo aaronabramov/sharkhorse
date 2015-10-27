@@ -3,32 +3,40 @@ import BaseGenerator from './base';
 export default class Sequence extends BaseGenerator {
     constructor() {
         super();
-        this.n = 1;
+        this._n = 1;
+        this._string = false;
+        this._decrement = false;
     }
 
     _generate() {
-        return this.n++;
+        let n;
+
+        if (this._decrement) {
+            n = this._n--;
+        } else {
+            n = this._n++;
+        }
+
+        if (this._string) {
+            n = n.toString();
+        }
+
+        return n;
     }
 
     startFrom(value) {
-        this.n = value;
+        this._n = value;
 
         return this;
     }
 
     decrement() {
-        let gen = new DecrementingSequence();
-        gen.n = this.n;
-        return gen;
-    }
-}
-
-class DecrementingSequence extends Sequence {
-    constructor() {
-        super();
+        this._decrement = true;
+        return this;
     }
 
-    _generate() {
-        return this.n--;
+    string() {
+        this._string = true;
+        return this;
     }
 }

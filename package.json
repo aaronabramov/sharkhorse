@@ -2,9 +2,9 @@
   "name": "sharkhorse",
   "version": "1.0.2",
   "description": "",
-  "main": "./src/factory.js",
+  "main": "./src/index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --compilers js:babel/register test/**/*_test.js"
+    "test": "./node_modules/mocha/bin/mocha --compilers js:babel/register test/*_test.js test/**/*_test.js"
   },
   "author": "Dmitrii Abramov",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "url": "git@github.com:dmitriiabramov/sharkhorse.git"
   },
   "dependencies": {
-    "node-uuid": "^1.4.1",
+    "node-uuid": "1.4.1",
     "prng": "0.0.1"
   }
 }

@@ -1,14 +1,34 @@
 import {expect} from 'chai';
-import Factory, {generate} from '../../';
+import {create, generators} from '../../';
 
 describe('generators/name', function() {
     it('generates a full name', function() {
-        let F = Factory({
-            name: generate('name')
-        });
+        let F = {
+            name: generators.name()
+        };
 
-        let {name} = F.create();
+        let {name} = create(F);
 
         expect(name).to.match(/^\w+ \w+$/);
+    });
+
+    it('generates first name', function() {
+        let F = {
+            name: generators.name().first()
+        };
+
+        let {name} = create(F);
+
+        expect(name).to.match(/^\w+/);
+    });
+
+    it('generates first name', function() {
+        let F = {
+            name: generators.name().last()
+        };
+
+        let {name} = create(F);
+
+        expect(name).to.match(/^\w+/);
     });
 });

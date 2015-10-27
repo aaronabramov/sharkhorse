@@ -10,8 +10,43 @@ function randomLastName() {
     return LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)];
 }
 
+const TYPES = {
+    FIRST: 'FIRST',
+    LAST: 'LAST',
+    FULL: 'FULL'
+};
+
 export default class Name extends BaseGenerator {
+    constructor() {
+        super();
+        this.type = TYPES.FULL;
+    }
+
     _generate() {
-        return `${randomFirstName()} ${randomLastName()}`;
+        switch (this.type) {
+            case TYPES.FIRST:
+                return randomFirstName();
+            case TYPES.LAST:
+                return randomLastName();
+            case TYPES.FULL:
+                return `${randomFirstName()} ${randomLastName()}`;
+            default:
+                throw new Error(`unknownType: ${this.type}`);
+        }
+    }
+
+    first() {
+        this.type = TYPES.FIRST;
+        return this;
+    }
+
+    last() {
+        this.type = TYPES.LAST;
+        return this;
+    }
+
+    full() {
+        this.type = TYPES.FULL;
+        return this;
     }
 }

@@ -1,43 +1,43 @@
 import {expect} from 'chai';
-import Factory, {generate} from '../../';
+import {create, generators} from '../../';
 
 describe('generators/lorem', function() {
     it('generates a paraghaph', function() {
-        let F = Factory({
-            txt: generate('lorem')
-        });
+        let Message = {
+            txt: generators.lorem()
+        };
 
-        let {txt} = F.create();
+        let {txt} = create(Message);
 
         expect(txt).to.match(/[\w\s\.\,]/);
         expect(txt).to.have.length.within(100, 500);
     });
 
     it('generates x words', function() {
-        let F = Factory({
-            txt: generate('lorem').words(10)
-        });
+        let F = {
+            txt: generators.lorem().words(10)
+        };
 
-        let {txt} = F.create();
+        let {txt} = create(F);
 
         expect(txt).to.match(/[\w\s]/);
         expect(txt.split(' ')).to.have.length(10);
     });
 
     it('generates multiple paraghaphs or words', function() {
-        let F = Factory({txt: generate('lorem').words(5)});
-        expect(F.create().txt.split(' ')).to.have.length(5);
+        let F = {txt: generators.lorem().words(5)};
+        expect(create(F).txt.split(' ')).to.have.length(5);
 
-        F = Factory({txt: generate('lorem').paraghaphs(5)});
-        expect(F.create().txt.split('\n\n')).to.have.length(5);
+        F = {txt: generators.lorem().paraghaphs(5)};
+        expect(create(F).txt.split('\n\n')).to.have.length(5);
     });
 
 
     it('generates a paraghaphs or a word', function() {
-        let F = Factory({txt: generate('lorem').word});
-        expect(F.create().txt).to.match(/\w/);
+        let F = {txt: generators.lorem().word};
+        expect(create(F).txt).to.match(/\w/);
 
-        F = Factory({txt: generate('lorem').paraghaph()});
-        expect(F.create().txt).to.have.length.within(100, 500);
+        F = {txt: generators.lorem().paraghaph()};
+        expect(create(F).txt).to.have.length.within(100, 500);
     });
 });

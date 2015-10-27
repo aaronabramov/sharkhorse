@@ -1,14 +1,14 @@
 import {expect} from 'chai';
-import Factory, {generate} from '../../';
+import {create, generators} from '../../';
 
 describe('generators/email', function() {
     it('generates a sequence', function() {
-        let F = Factory({
-            email: generate('email')
-        });
+        let F = {
+            email: generators.email()
+        };
 
-        let {email} = F.create();
-        let email2 = F.create().email;
+        let {email} = create(F);
+        let email2 = create(F).email;
 
         expect(email).to.match(/.+\@.+\.com$/);
         expect(email).to.not.equal(email2);

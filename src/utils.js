@@ -1,3 +1,5 @@
+import BaseGenerator from './generators/base';
+
 export function extend(into /*, &more */ ) {
     for (var i = 1; i < arguments.length; i++) {
         for (var attrname in arguments[i]) {
@@ -10,13 +12,19 @@ export function extend(into /*, &more */ ) {
     return into;
 }
 
+/**
+ * iterate deeply through the object (including nested arrays) and return a new
+ * copy of this object.
+ *
+ * This function will not iterate through generator objects
+ */
 export function deepMap(obj, replace) {
     if (!replace) {
         replace = (value) => { return value; };
     }
     obj = replace(obj);
 
-    if (obj.constructor === Array) {
+    if (obj && obj.constructor === Array) {
         let result = [];
 
         obj.forEach(el => {
@@ -24,7 +32,8 @@ export function deepMap(obj, replace) {
         });
 
         return result;
-    } else if (obj !== null && typeof obj === 'object') {
+        // NOTE: BaseGenerator instances are excluded
+    } else if (obj !== null && typeof obj === 'object' && !(obj instanceof BaseGenerator)) {
         let result = {};
 
         Object.keys(obj).forEach(key => {
