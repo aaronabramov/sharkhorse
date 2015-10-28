@@ -1,3 +1,9 @@
+/*
+ * Copyright 2015, Yahoo Inc.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
+
 import {extend, deepMap} from './utils.js';
 import BaseGenerator from './generators/base';
 

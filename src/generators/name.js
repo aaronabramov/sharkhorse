@@ -1,3 +1,9 @@
+/*
+ * Copyright 2015, Yahoo Inc.
+ * Copyrights licensed under the New BSD License.
+ * See the accompanying LICENSE file for terms.
+ */
+
 import BaseGenerator from './base';
 import FIRST_NAMES, {MALE, FEMALE} from '../constants/first_names';
 import LAST_NAMES from '../constants/last_names';

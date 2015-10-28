@@ -1,3 +1,0 @@
-module.exports = {
-    LAZY_FN_TOKEN: 'A78F83FF-5E32-4410-B05A-2D84B786974A'
-};
