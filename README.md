@@ -6,244 +6,100 @@
 
 ## Summary
 
-### Creating Factories
+### Defining Factories
+Factory definitions are plain javascript objects that hold generator objects.
 
 ```js
-var Factory = require('sharkhorse');
+// message_factory.js
+import {generators} from 'sharkhorse';
 
-var Message = Factory(function() {
-    return {
-        from: 'test_name',
-        body: 'test_body'
-    };
-});
+export const Message = {
+    id: generators.sequence(),
+    subject: generators.lorem().words(2),
+    from: {
+        name: generators.name().full(),
+        email: generators.email()
+    }
+};
 ```
 
 ### Building objects from factories
 
-```js
-Message.create();
-// { from: 'test_name', body: 'test_body' }
 
-// overwrite attributes
-Message.create({from: 'name', body: 'body'});
-// { from: 'name', body: 'body' }
+To build an object from a factory definition use a `create` or 'createMany` function
+the function would iterate through object's nested properties and evaluate all generators to their values
+```js
+import {create, createMany} from 'sharkhorse';
+import {Message} from './message_factory';
+
+create(Message) // => {id: 1, subject: 'Lorem ipsum', from: {name: 'Nickolas Conrad', email: 'random_0@example.com'}}
+create(Message) // => {id: 2, subject: 'Lorem ipsum', from: {name: 'Seth Edwards', email: 'random_1@example.com'}}
 ```
 
-### Helper functions
+`createMany()` will create an array of objects
 
 ```js
-var Conversation = Factory(function() {
-    return {
-        id: this.seq(),
-        someFunctionResult: this.defer(Date.now),
-        anotherFactory: this.factory(Mailbox),
-        factoryCollection: this.factories(Participant, 3),
-        randomUuid: this.uuid(),
-        uniqIdBasedOnSeedValue: this.uniqId('some_seed'),
-        randomNumberFromOneToTen: this.rand(1, 10)
-    };
-});
-
-var Mailbox = Factory(function() {
-    return {
-        name: this.uniqId('mailbox_name')
-    };
-});
-
-var Participant = Factory(function() {
-    return {
-        name: this.uniqId('participant_name')
-    };
-});
-
-Conversation.create();
-// { id: 1,
-//   someFunctionResult: 1413670721071,
-//   anotherFactory: { name: 'mailbox_name_6' },
-//   factoryCollection:
-//    [ { name: 'participant_name_7' },
-//      { name: 'participant_name_8' },
-//      { name: 'participant_name_9' } ],
-//   randomUuid: '17292d41-f146-49f2-99f5-fd0717a01d84',
-//   uniqIdBasedOnSeedValue: 'some_seed_10',
-//   randomNumberFromOneToTen: 2 }
-
-
-Conversation.createMany(5) // will return array containing 5 created objects
+createMany(Message, 3) // [{...}, {...}, {...}]
 ```
 
-## Helper functions
+## generators
 
-- [`seq`](#seq)
-- [`defer`](#defer)
-- [`factory`](#factory)
-- [`factories`](#factories)
-- [`uuid`](#uuid)
-- [`uniqId`](#uniqid)
-- [`rand`](#rand)
-
------------------------------
-<a name="seq" />
-### this.seq([fn])
-
-`this.seq` function will return incrementing numbers starting from 1 every time it's called
+### `sequence()`
+generates an incrementing or decrementing number every time it's evaluated
 
 ```js
-var F = Factory(function() {
-    return {
-        id: this.seq()
-    };
-});
-
-F.createMany(5);
-// [ { id: 1 },
-//   { id: 2 },
-//   { id: 3 },
-//   { id: 4 },
-//   { id: 5 } ]
+generators.sequence() // 1, 2, ..
+generators.sequence().decrement() // 1, 0, -1, ...
+generators.sequence().startFrom(100) // 100, 101, 102, ...
 
 ```
 
-you can specify a function that will get generated number and return resulting value
-```js
-var F = Factory(function() {
-    return {
-        id: this.seq(function(n) { return n * 11; })
-    };
-});
 
-F.createMany(5);
-// [ { id: 11 },
-//   { id: 22 },
-//   { id: 33 },
-//   { id: 44 },
-//   { id: 55 } ]
-```
-
------------------------------
-<a name="defer" />
-### this.defer(fn)
-`this.defer` takes another function as an argument and evaluates it during the factory object creation
-```js
-F = Factory(function() {
-    return {
-        timestamp: this.defer(Date.now)
-    };
-});
-
-F.create()
-setTimeout(function() { console.log(F.create()); }, 100);
-// { timestamp: 1413671560509 }
-// { timestamp: 1413671560609 }
-```
-
------------------------------
-<a name="factory" />
-### this.factory(Factory)
-creates object using given factory
-```js
-F1 = Factory(function() {
-    return {
-        f1Value: 'a'
-    };
-});
-
-F2 = Factory(function() {
-    return {
-        f2Value: 'b',
-        f1: this.factory(F1)
-    };
-});
-
-F2.create();
-// { f2Value: 'b', f1: { f1Value: 'a' } }
-
-```
-
------------------------------
-<a name="factories" />
-### this.factories(Factory, n)
-Same as [`factory`](#factory) but creates a collection of factories
+### `number()`
+generates a random number
 
 ```js
-F2 = Factory(function() {
-    return {
-        f1Collection: this.factories(F1, 5)
-    };
-});
-F2.create();
-// { f1Collection:
-//    [ { f1Value: 'a' },
-//      { f1Value: 'a' },
-//      { f1Value: 'a' },
-//      { f1Value: 'a' },
-//      { f1Value: 'a' } ] }
+generators.number() // 285
+generators.number().min(500) // 24029
+generators.number().max(2)
+generators.number().min(0).max(2)
 ```
 
------------------------------
-<a name="uuid" />
-### this.uuid()
-generates uuid
-```js
-var F = Factory(function() {
-    return {
-        uuid: this.uuid()
-    };
-});
+### `name()`
+generates a random name
 
-F.create();
-// { uuid: '84dec142-4807-4233-8c75-93b2bf8f1f5f' }
-```
-
------------------------------
-<a name="uniqid" />
-### this.uniqId(seed)
-generates unique string based on provided seed
 
 ```js
-var F1 = Factory(function() {
-    return {
-        f1Id: this.uniqId('seed')
-    };
-});
-
-var F2 = Factory(function() {
-    return {
-        f2Id: this.uniqId('seed')
-    };
-});
-
-F1.createMany(3);
-F2.createMany(3);
-
-// [ { f1Id: 'seed_1' },
-//   { f1Id: 'seed_2' },
-//   { f1Id: 'seed_3' } ]
-// [ { f2Id: 'seed_4' },
-//   { f2Id: 'seed_5' },
-//   { f2Id: 'seed_6' } ]
+generators.name() // Seth Edwards
+generators.name().full() // Seth Edwards
+generators.name().first() // Seth
+generators.name().last() // Edwards
 ```
 
------------------------------
-<a name="rand" />
-### this.rand(min, max)
-generates random number in a range from `min` to `max`. generated numers are pseudo random, that means that the same
-numbers will be generated if you run your tests twice
+### `email()`
+generates a random unique email every time it's evaluated
 
 ```js
-var F = Factory(function() {
-    return {
-        rand: this.rand(1, 9999)
-    };
-});
-
-F.createMany(5);
-// [ { rand: 3724 },
-//   { rand: 799 },
-//   { rand: 7038 },
-//   { rand: 2226 },
-//   { rand: 2067 } ]
-
-[![Sharkhorse](https://raw.githubusercontent.com/dmitriiabramov/sharkhorse/master/shark-horse.jpg)](https://raw.githubusercontent.com/dmitriiabramov/sharkhorse/master/shark-horse.jpg)
+generators.email() // random_0@example.com, random_1@example.com
 ```
+
+### `lorem()`
+generates random text
+
+```js
+generators.lorem() // Lorem ipsum dolor sit amet, per in mazim...
+generators.lorem().word()
+generators.lorem().words(n)
+generators.lorem().paraghaph()
+generators.lorem().paraghaphs(n)
+```
+
+### `create(FactoryDefinition)`
+generates a new factory object from the passed argument
+
+```js
+generate.create(MessageFactory) // {id: 1, subject: 'lorem', ...}
+```
+
+### `createMany(FactoryDefinition, n)`
+same as `create()` but generates an array of factories
