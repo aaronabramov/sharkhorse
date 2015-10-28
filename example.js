@@ -1,28 +1,26 @@
-var Factory = require('./');
+import Factory from './';
 
-
-var Participant = Factory(function() {
-    return {
-        id: this.seq(),
-        firstName: this.uniqId('first_name'),
-        lastName: this.uniqId('last_name')
-    }
-});
-
-
-var Conversation = Factory(function() {
+let Participant = Factory(function() {
     return {
         id: this.uuid(),
-        subject: this.uuid(),
-        participants: this.factories(Participant, 3) // random [1, 4]
+        name: this.uniqId('name_'),
+        email: this.uniqId('a@b.')
     }
 });
 
-var F = Factory(function() {
+let Message = Factory(function() {
     return {
-        random: this.defer(Math.random)
-    };
+        id: this.seq(),
+        subject: this.uuid(),
+        from: this.factory(Participant),
+        to: this.factories(Participant, 2)
+    }
 });
 
-console.log(Conversation.create());
-console.log(F.create());
+let MessageWithAttachments = Message.extend(function(defaults) {
+    defaults.attachment = this.uniqId('attachment');
+});
+
+
+console.log(Message.create());
+console.log(MessageWithAttachments.create());

@@ -1,40 +1,25 @@
-var extend = require('./utils.js').extend,
-    Context = require('./context.js'),
-    LAZY_FN_TOKEN = require('./constants.js').LAZY_FN_TOKEN;
+import {extend, deepMap} from './utils.js';
+import BaseGenerator from './generators/base';
 
-/**
- * Constructor for factory object
- *
- * @param {Function} fn definition function
- */
-function Factory(fn) {
-    if (this instanceof Factory) {
-        this.obj = fn.call(new Context());
-        return;
-    }
-    return new Factory(fn);
+export function create(descriptor, attributes) {
+    let result = extend({}, descriptor, attributes);
+
+    return deepMap(result, (node) => {
+        if (node instanceof BaseGenerator) {
+            return node._generate();
+        }
+
+        return node;
+    });
 }
 
-Factory.prototype.create = function(attributes) {
-    var result = extend({}, this.obj, attributes);
-
-    // eval all lazy functions
-    for (var attribute in result) {
-        if (result[attribute][LAZY_FN_TOKEN]) {
-            result[attribute] = result[attribute]();
-        }
-    }
-    return result;
-};
-
-Factory.prototype.createMany = function(n) {
-    var result = [],
-        i;
+export function createMany(descriptor, n) {
+    let result = [];
+    let i;
 
     for (i = 0; i < n; i++) {
-        result.push(this.create());
+        result.push(create(descriptor));
     }
-    return result;
-};
 
-module.exports = Factory;
+    return result;
+}
