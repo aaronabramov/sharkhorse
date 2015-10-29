@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {create, generators} from '../';
+import {create, generators} from '../src';
 
 describe('nested objects', function() {
     it('evaluates nested objects', function() {

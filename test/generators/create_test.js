@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {create, generators} from '../../';
+import {create, generators} from '../../src';
 
 describe('generators/create', function() {
     it('creates a subfactory', function() {

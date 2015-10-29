@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {create, generators} from '../';
+import {create, generators} from '../src';
 
 describe('factory.extend()', function() {
     it('extends a factory', function() {
