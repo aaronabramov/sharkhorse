@@ -6,6 +6,9 @@
 
 import BaseGenerator from './base';
 import LOREM_IPSUM, {PARAGRAPHS, WORDS} from '../constants/lorem_ipsum';
+import PRNG from 'prng';
+
+const prng = new PRNG();
 
 export default class Lorem extends BaseGenerator {
     constructor() {
@@ -53,7 +56,7 @@ export default class Lorem extends BaseGenerator {
         let result = [];
 
         for (let i = 0; i < n; i++) {
-            result.push(PARAGRAPHS[i % (PARAGRAPHS.length - 1)]);
+            result.push(PARAGRAPHS[prng.rand(1, 1000) % (PARAGRAPHS.length - 1)]);
         }
 
         return result.join('\n\n');
@@ -63,7 +66,7 @@ export default class Lorem extends BaseGenerator {
         let result = [];
 
         for (let i = 0; i < n; i++) {
-            result.push(WORDS[i % (WORDS.length - 1)]);
+            result.push(WORDS[prng.rand(1, 1000) % (WORDS.length - 1)]);
         }
 
         return result.join(' ');

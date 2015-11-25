@@ -4,22 +4,24 @@
  * See the accompanying LICENSE file for terms.
  */
 
-import Sequence from './generators/sequence';
-import Email from './generators/email';
-import Name from './generators/name';
-import Lorem from './generators/lorem';
-import Number_ from './generators/number';
 import Create from './generators/create';
 import CreateMany from './generators/create_many';
+import Date_ from './generators/date';
+import Email from './generators/email';
+import Lorem from './generators/lorem';
+import Name from './generators/name';
+import Number_ from './generators/number';
+import Sequence from './generators/sequence';
 
 const GENERATORS = {
+    create: Create,
+    createMany: CreateMany,
+    date: Date_,
     email: Email,
     lorem: Lorem,
     name: Name,
     number: Number_,
-    sequence: Sequence,
-    create: Create,
-    createMany: CreateMany
+    sequence: Sequence
 };
 
 let generators = {};
