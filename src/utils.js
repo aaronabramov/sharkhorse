@@ -4,8 +4,6 @@
  * See the accompanying LICENSE file for terms.
  */
 
-import BaseGenerator from './generators/base';
-
 export function extend(into /*, &more */ ) {
     for (var i = 1; i < arguments.length; i++) {
         for (var attrname in arguments[i]) {
@@ -38,8 +36,7 @@ export function deepMap(obj, replace) {
         });
 
         return result;
-        // NOTE: BaseGenerator instances are excluded
-    } else if (obj !== null && typeof obj === 'object' && !(obj instanceof BaseGenerator)) {
+    } else if (obj !== null && typeof obj === 'object') {
         let result = {};
 
         Object.keys(obj).forEach(key => {

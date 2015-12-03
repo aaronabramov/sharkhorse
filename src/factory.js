@@ -6,7 +6,6 @@
 
 import {extend, deepMap} from './utils.js';
 import {isGenerator} from './generator_token';
-import BaseGenerator from './generators/base';
 import invariant from './invariant';
 
 export function create(descriptor, attributes) {
