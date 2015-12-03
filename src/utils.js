@@ -48,22 +48,3 @@ export function deepMap(obj, replace) {
         return obj;
     }
 }
-
-export function deepAssign(dest, src) {
-    let result = extend({}, dest);
-
-    Object.keys(src).forEach((key) => {
-        if (dest.hasOwnProperty(key) &&
-            dest[key] !== null &&
-            typeof dest[key] === 'object' &&
-            typeof src[key] === 'object'
-           ) {
-               result[key] = deepAssign(dest[key], src[key]);
-
-        } else {
-            result[key] = src[key];
-        }
-    });
-
-    return result;
-}
