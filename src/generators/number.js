@@ -4,28 +4,35 @@
  * See the accompanying LICENSE file for terms.
  */
 
-import BaseGenerator from './base';
+import {markAsGenerator} from '../generator_token';
 import PRNG from 'prng';
 
-export default class Number_ extends BaseGenerator {
-    constructor() {
-        super();
-        this._min = 0;
-        this._max = 1000;
-        this._prng = new PRNG();
+export default function number() {
+    const prng = new PRNG();
+    let min = 0;
+    let max = 1000;
+
+    const generator = (function*() {
+        for (;;) {
+            yield prng.rand(min, max);
+        }
+    })();
+
+    function next() {
+        return generator.next().value;
     }
 
-    _generate() {
-        return this._prng.rand(this._min, this._max);
+    markAsGenerator(next);
+
+    next.min = (value) => {
+        min = value;
+        return next;
     }
 
-    min(n) {
-        this._min = n;
-        return this;
+    next.max = (value) => {
+        max = value;
+        return next;
     }
 
-    max(n) {
-        this._max = n;
-        return this;
-    }
+    return next;
 }

@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {create, generators} from '../../src';
 
 describe('generators/lorem', function() {
-    it('generates a paraghaph', function() {
+    it('generates a paragraph', function() {
         let Message = {
             txt: generators.lorem()
         };
@@ -24,20 +24,20 @@ describe('generators/lorem', function() {
         expect(txt.split(' ')).to.have.length(10);
     });
 
-    it('generates multiple paraghaphs or words', function() {
+    it('generates multiple paragraphs or words', function() {
         let F = {txt: generators.lorem().words(5)};
         expect(create(F).txt.split(' ')).to.have.length(5);
 
-        F = {txt: generators.lorem().paraghaphs(5)};
+        F = {txt: generators.lorem().paragraphs(5)};
         expect(create(F).txt.split('\n\n')).to.have.length(5);
     });
 
 
-    it('generates a paraghaphs or a word', function() {
+    it('generates a paragraphs or a word', function() {
         let F = {txt: generators.lorem().word};
         expect(create(F).txt).to.match(/\w/);
 
-        F = {txt: generators.lorem().paraghaph()};
+        F = {txt: generators.lorem().paragraph()};
         expect(create(F).txt).to.have.length.within(100, 500);
     });
 });

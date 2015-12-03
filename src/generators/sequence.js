@@ -4,45 +4,51 @@
  * See the accompanying LICENSE file for terms.
  */
 
-import BaseGenerator from './base';
+import {markAsGenerator} from '../generator_token';
 
-export default class Sequence extends BaseGenerator {
-    constructor() {
-        super();
-        this._n = 1;
-        this._string = false;
-        this._decrement = false;
-    }
+export default function sequence() {
+    let n = 1;
+    let string = false;
+    let decrement = false;
 
-    _generate() {
-        let n;
+    const generator = (function*() {
+        for (;;) {
+            let value;
 
-        if (this._decrement) {
-            n = this._n--;
-        } else {
-            n = this._n++;
+            if (decrement) {
+                value = n--;
+            } else {
+                value = n++;
+            }
+
+            if (string) {
+                value = value.toString();
+            }
+
+            yield value;
         }
+    })();
 
-        if (this._string) {
-            n = n.toString();
-        }
-
-        return n;
+    function next() {
+        return generator.next().value;
     }
 
-    startFrom(value) {
-        this._n = value;
+    markAsGenerator(next);
 
-        return this;
+    next.decrement = () => {
+        decrement = true;
+        return next;
     }
 
-    decrement() {
-        this._decrement = true;
-        return this;
+    next.startFrom = (value) => {
+        n = value;
+        return next;
     }
 
-    string() {
-        this._string = true;
-        return this;
+    next.string = () => {
+        string = true;
+        return next;
     }
+
+    return next;
 }

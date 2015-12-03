@@ -47,3 +47,4 @@ describe('generators/sequence', function() {
         expect(create(F)).to.deep.equal({id: '4'});
     });
 });
+

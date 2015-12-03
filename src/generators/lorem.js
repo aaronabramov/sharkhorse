@@ -4,55 +4,17 @@
  * See the accompanying LICENSE file for terms.
  */
 
-import BaseGenerator from './base';
+import {markAsGenerator} from '../generator_token';
 import LOREM_IPSUM, {PARAGRAPHS, WORDS} from '../constants/lorem_ipsum';
 import PRNG from 'prng';
 
 const prng = new PRNG();
 
-export default class Lorem extends BaseGenerator {
-    constructor() {
-        super();
-        this.type = 'paragraphs';
-        this.n = 1;
-    }
+export default function lorem() {
+    let type = 'paragraphs';
+    let n = 1;
 
-    _generate() {
-        switch (this.type) {
-            case 'paragraphs':
-                return this._getNParagraphs(this.n);
-            case 'words':
-                return this._getNWords(this.n);
-            default:
-                throw new Error(`unknown type: ${this.type}`);
-        }
-    }
-
-    words(n) {
-        this.type = 'words';
-        this.n = n;
-        return this;
-    }
-
-    paraghaphs(n) {
-        this.type = 'paragraphs';
-        this.n = n;
-        return this;
-    }
-
-    word() {
-        this.type = 'words';
-        this.n = 1;
-        return this;
-    }
-
-    paraghaph() {
-        this.type = 'paragraphs';
-        this.n = 1;
-        return this;
-    }
-
-    _getNParagraphs(n) {
+    function _getNParagraphs(n) {
         let result = [];
 
         for (let i = 0; i < n; i++) {
@@ -62,7 +24,7 @@ export default class Lorem extends BaseGenerator {
         return result.join('\n\n');
     }
 
-    _getNWords(n) {
+    function _getNWords(n) {
         let result = [];
 
         for (let i = 0; i < n; i++) {
@@ -71,4 +33,49 @@ export default class Lorem extends BaseGenerator {
 
         return result.join(' ');
     }
+
+    const generator = (function*() {
+        switch (type) {
+            case 'paragraphs':
+                yield _getNParagraphs(n);
+                break;
+            case 'words':
+                return _getNWords(n);
+                break;
+            default:
+                throw new Error(`unknown type: ${type}`);
+        }
+    })();
+
+    function next() {
+        return generator.next().value;
+    };
+
+    markAsGenerator(next);
+
+    next.words = (value) => {
+        type = 'words';
+        n = value;
+        return next;
+    }
+
+    next.paragraphs = (value) => {
+        type = 'paragraphs';
+        n = value;
+        return next;
+    }
+
+    next.word = () => {
+        type = 'words';
+        n = 1;
+        return next;
+    }
+
+    next.paragraph = () => {
+        type = 'paragraphs';
+        n = 1;
+        return next;
+    }
+
+    return next;
 }

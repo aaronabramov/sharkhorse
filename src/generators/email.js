@@ -4,15 +4,22 @@
  * See the accompanying LICENSE file for terms.
  */
 
-import BaseGenerator from './base';
+import {markAsGenerator} from '../generator_token';
 
-export default class Email extends BaseGenerator {
-    constructor() {
-        super();
-        this.n = 0;
+export default function email() {
+    let n = 0;
+
+    const generator = (function*() {
+        for (;;) {
+            yield `random_${n++}@example.com`;
+        }
+    })();
+
+    function next() {
+        return generator.next().value;
     }
 
-    _generate() {
-        return `random_${this.n++}@example.com`;
-    }
+    markAsGenerator(next);
+
+    return next;
 }

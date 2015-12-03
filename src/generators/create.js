@@ -4,17 +4,22 @@
  * See the accompanying LICENSE file for terms.
  */
 
-import {create} from '../factory';
-import BaseGenerator from './base';
+import {create as createFactory} from '../factory';
+import {markAsGenerator} from '../generator_token';
 
-export default class Create extends BaseGenerator {
-    constructor() {
-        super();
-        this.arguments = arguments
+export default function create(/* descriptor, attributes */) {
+    const args = arguments;
+    const generator = (function*() {
+        for (;;) {
+            yield createFactory.apply(null, args);
+        }
+    })();
+
+    function next() {
+        return generator.next().value;
     }
 
-    _generate() {
-        return create.apply(null, this.arguments);
-    }
+    markAsGenerator(next);
+
+    return next;
 }
-

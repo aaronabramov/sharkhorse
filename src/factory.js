@@ -5,18 +5,23 @@
  */
 
 import {extend, deepMap} from './utils.js';
+import {isGenerator} from './generator_token';
 import BaseGenerator from './generators/base';
+import invariant from './invariant';
 
 export function create(descriptor, attributes) {
-    let result = extend({}, descriptor, attributes);
+    invariant(descriptor, 'descriptor is required');
 
-    if (descriptor instanceof BaseGenerator) {
-        return descriptor._generate();
+    if (isGenerator(descriptor)) {
+        return descriptor();
     }
 
+    let result = extend({}, descriptor, attributes);
+
+
     return deepMap(result, (node) => {
-        if (node instanceof BaseGenerator) {
-            return node._generate();
+        if (isGenerator(node)) {
+            return node();
         }
 
         return node;

@@ -4,9 +4,10 @@
  * See the accompanying LICENSE file for terms.
  */
 
-import BaseGenerator from './base';
 import FIRST_NAMES, {MALE, FEMALE} from '../constants/first_names';
 import LAST_NAMES from '../constants/last_names';
+
+import {markAsGenerator} from '../generator_token';
 
 function randomFirstName(names = FIRST_NAMES) {
     return names[Math.floor(Math.random() * names.length)];
@@ -22,37 +23,48 @@ const TYPES = {
     FULL: 'FULL'
 };
 
-export default class Name extends BaseGenerator {
-    constructor() {
-        super();
-        this.type = TYPES.FULL;
-    }
 
-    _generate() {
-        switch (this.type) {
-            case TYPES.FIRST:
-                return randomFirstName();
-            case TYPES.LAST:
-                return randomLastName();
-            case TYPES.FULL:
-                return `${randomFirstName()} ${randomLastName()}`;
-            default:
-                throw new Error(`unknownType: ${this.type}`);
+export default function name() {
+    let type = TYPES.FULL;
+
+    const generator = (function*() {
+        for (;;) {
+            switch (type) {
+                case TYPES.FIRST:
+                    yield randomFirstName();
+                    break;
+                case TYPES.LAST:
+                    yield randomLastName();
+                    break;
+                case TYPES.FULL:
+                    yield `${randomFirstName()} ${randomLastName()}`;
+                    break;
+                default:
+                    throw new Error(`unknownType: ${this.type}`);
+            }
         }
+    })();
+
+    function next() {
+        return generator.next().value;
     }
 
-    first() {
-        this.type = TYPES.FIRST;
-        return this;
+    markAsGenerator(next);
+
+    next.first = () => {
+        type = TYPES.FIRST;
+        return next;
+    };
+
+    next.last = () => {
+        type = TYPES.LAST;
+        return next;
+    };
+
+    next.full = () => {
+        type = TYPES.FULL;
+        return next;
     }
 
-    last() {
-        this.type = TYPES.LAST;
-        return this;
-    }
-
-    full() {
-        this.type = TYPES.FULL;
-        return this;
-    }
-}
+    return next;
+};

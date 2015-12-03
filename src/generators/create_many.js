@@ -4,17 +4,22 @@
  * See the accompanying LICENSE file for terms.
  */
 
-import {createMany} from '../factory';
-import BaseGenerator from './base';
+import {createMany as createManyFactories} from '../factory';
+import {markAsGenerator} from '../generator_token';
 
-export default class CreateMany extends BaseGenerator {
-    constructor() {
-        super();
-        this.arguments = arguments;
+export default function createMany(/* descriptor, attributes */) {
+    const args = arguments;
+    const generator = (function*() {
+        for (;;) {
+            yield createManyFactories.apply(null, args);
+        }
+    })();
+
+    function next() {
+        return generator.next().value;
     }
 
-    _generate() {
-        return createMany.apply(null, this.arguments);
-    }
+    markAsGenerator(next);
+
+    return next;
 }
-

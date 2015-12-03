@@ -4,22 +4,40 @@
  * See the accompanying LICENSE file for terms.
  */
 
-import BaseGenerator from './base';
+import {markAsGenerator} from '../generator_token';
 import PRNG from 'prng';
-import invariant from '../invariant';
 
 const DEFAULT_FROM = '1987-10-10';
 const DEFAULT_TO = '2015-10-10';
 
-export default class Date_ extends BaseGenerator {
-    constructor() {
-        super();
-        this._from = Date.parse(DEFAULT_FROM);
-        this._to = Date.parse(DEFAULT_TO);
-        this._prng = new PRNG();
+export default function date() {
+    const prng = new PRNG();
+    let from = Date.parse(DEFAULT_FROM);
+    let to = Date.parse(DEFAULT_TO);
+    let timestamp = false;
+
+    const generator = (function*() {
+        for (;;) {
+            let value = prng.rand(from, to);
+
+            if (!timestamp) {
+                value = new Date(value);
+            }
+
+            yield value;
+        }
+    })();
+
+    function next() {
+        return generator.next().value;
     }
 
-    _generate() {
-        return this._prng.rand(this._from, this._to);
+    markAsGenerator(next);
+
+    next.timestamp = () => {
+        timestamp = true;
+        return next;
     }
+
+    return next;
 }
