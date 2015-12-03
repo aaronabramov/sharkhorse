@@ -8,9 +8,17 @@ describe('generators/date', function() {
         expect(create(G)).to.be.a.instanceof(Date);
     });
 
-    it('generates a timestamp', function() {
-        let G = generators.date().timestamp();
+    it('generates a js timestamp', function() {
+        let G = generators.date().jsTimestamp();
 
         expect(create(G)).to.be.a('number');
+        expect(create(G).toString()).to.have.length(12);
+    });
+
+    it('generates a unix timestamp', function() {
+        let G = generators.date().unixTimestamp();
+
+        expect(create(G)).to.be.a('number');
+        expect(create(G).toString()).to.have.length(9);
     });
 });

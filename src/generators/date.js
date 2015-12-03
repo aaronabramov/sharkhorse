@@ -20,6 +20,10 @@ export default function date() {
         for (;;) {
             let value = prng.rand(from, to);
 
+            if (timestamp === 'unix') {
+                value = Math.floor(value / 1000);
+            }
+
             if (!timestamp) {
                 value = new Date(value);
             }
@@ -34,8 +38,13 @@ export default function date() {
 
     markAsGenerator(next);
 
-    next.timestamp = () => {
-        timestamp = true;
+    next.unixTimestamp = () => {
+        timestamp = 'unix';
+        return next;
+    }
+
+    next.jsTimestamp = () => {
+        timestamp = 'js';
         return next;
     }
 
