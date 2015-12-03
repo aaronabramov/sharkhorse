@@ -35,15 +35,17 @@ export default function lorem() {
     }
 
     const generator = (function*() {
-        switch (type) {
-            case 'paragraphs':
-                yield _getNParagraphs(n);
-                break;
-            case 'words':
-                return _getNWords(n);
-                break;
-            default:
-                throw new Error(`unknown type: ${type}`);
+        for (;;) {
+            switch (type) {
+                case 'paragraphs':
+                    yield _getNParagraphs(n);
+                    break;
+                case 'words':
+                    yield _getNWords(n);
+                    break;
+                default:
+                    throw new Error(`unknown type: ${type}`);
+            }
         }
     })();
 
