@@ -9,7 +9,10 @@ import {isGenerator} from './generator_token';
 import invariant from './invariant';
 
 export function create(descriptor, attributes) {
-    invariant(descriptor, 'descriptor is required');
+    invariant(
+        descriptor !== null && descriptor !== undefined,
+        `'sharkhorse#create()' function expects an object as an argument. got '${descriptor}'`
+    );
 
     if (isGenerator(descriptor)) {
         return descriptor();
