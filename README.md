@@ -1,6 +1,7 @@
 # Sharkhorse
 
 [![Build Status](https://travis-ci.org/dmitriiabramov/sharkhorse.svg?branch=master)](https://travis-ci.org/dmitriiabramov/sharkhorse)
+[![codecov.io](https://codecov.io/github/dmitriiabramov/sharkhorse/coverage.svg?branch=master)](https://codecov.io/github/dmitriiabramov/sharkhorse?branch=master)
 
 ## Javascript Test factories
 
