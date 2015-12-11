@@ -1,3 +1,5 @@
+/* global describe, it */
+
 import {expect} from 'chai';
 import {create, generators} from '../../src';
 
@@ -14,14 +16,13 @@ describe('generators/lorem', function() {
     });
 
     it('generates x words', function() {
-        let F = {
-            txt: generators.lorem().words(10)
-        };
+        expect(create(generators.lorem().words(10))).to.match(/[\w\s]/);
+        expect(create(generators.lorem().words(10)).split(' ')).to.have.length(10);
+    });
 
-        let {txt} = create(F);
-
-        expect(txt).to.match(/[\w\s]/);
-        expect(txt.split(' ')).to.have.length(10);
+    it('generates a word', function() {
+        expect(create(generators.lorem().word())).to.match(/[\w]/);
+        expect(create(generators.lorem().word()).split(' ')).to.have.length(1);
     });
 
     it('generates multiple paragraphs or words', function() {

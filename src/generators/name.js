@@ -4,7 +4,7 @@
  * See the accompanying LICENSE file for terms.
  */
 
-import FIRST_NAMES, {MALE, FEMALE} from '../constants/first_names';
+import FIRST_NAMES from '../constants/first_names';
 import LAST_NAMES from '../constants/last_names';
 
 import {markAsGenerator} from '../generator_token';
@@ -30,17 +30,17 @@ export default function name() {
     const generator = (function*() {
         for (;;) {
             switch (type) {
-                case TYPES.FIRST:
-                    yield randomFirstName();
-                    break;
-                case TYPES.LAST:
-                    yield randomLastName();
-                    break;
-                case TYPES.FULL:
-                    yield `${randomFirstName()} ${randomLastName()}`;
-                    break;
-                default:
-                    throw new Error(`unknownType: ${this.type}`);
+            case TYPES.FIRST:
+                yield randomFirstName();
+                break;
+            case TYPES.LAST:
+                yield randomLastName();
+                break;
+            case TYPES.FULL:
+                yield `${randomFirstName()} ${randomLastName()}`;
+                break;
+            default:
+                throw new Error(`unknownType: ${this.type}`);
             }
         }
     })();
@@ -61,10 +61,5 @@ export default function name() {
         return next;
     };
 
-    next.full = () => {
-        type = TYPES.FULL;
-        return next;
-    }
-
     return next;
-};
+}
