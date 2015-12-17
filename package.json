@@ -9,12 +9,14 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --compilers js:./coverage_collector.js test/*_test.js test/**/*_test.js && cat ./coverage/coverage-final.json | ./node_modules/codecov.io/bin/codecov.io.js",
     "test:dev": "./node_modules/mocha/bin/mocha --compilers js:babel/register test/*_test.js test/**/*_test.js",
-    "test:watch": "./node_modules/mocha/bin/mocha --compilers js:babel/register test/*_test.js test/**/*_test.js  --watch"
+    "test:watch": "./node_modules/mocha/bin/mocha --compilers js:babel/register test/*_test.js test/**/*_test.js  --watch",
+    "test:package": "./node_modules/mocha/bin/mocha package_test/*_test.js package_test/**/*_test.js"
   },
   "author": "Dmitrii Abramov",
   "license": "BSD-3-Clause",
   "devDependencies": {
     "babel": "^5.8.23",
+    "babel-runtime": "^6.3.19",
     "chai": "^1.9.1",
     "codecov.io": "^0.1.6",
     "gulp": "^3.9.0",
