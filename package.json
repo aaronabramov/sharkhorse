@@ -7,7 +7,7 @@
     "package/"
   ],
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --compilers js:./coverage_collector.js test/*_test.js test/**/*_test.js &&     npm run test:package && cat ./coverage/coverage-final.json | ./node_modules/codecov.io/bin/codecov.io.js",
+    "test": "gulp && ./node_modules/mocha/bin/mocha --compilers js:./coverage_collector.js test/*_test.js test/**/*_test.js &&     npm run test:package && cat ./coverage/coverage-final.json | ./node_modules/codecov.io/bin/codecov.io.js",
     "test:dev": "./node_modules/mocha/bin/mocha --compilers js:babel/register test/*_test.js test/**/*_test.js",
     "test:watch": "./node_modules/mocha/bin/mocha --compilers js:babel/register test/*_test.js test/**/*_test.js  --watch",
     "test:package": "./node_modules/mocha/bin/mocha package_test/*_test.js package_test/**/*_test.js"
