@@ -67,7 +67,9 @@ generators.number().min(0).max(2)
 ```
 
 ### `randomItem(list)`
+```
 generators.randomItem([1, 2, 3]) // one of the numbers
+```
 
 ### `name()`
 generates a random name
