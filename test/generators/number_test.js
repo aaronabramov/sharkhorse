@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai';
 import {create, generators} from '../../src';
 
@@ -19,7 +21,7 @@ describe('generators/number', function() {
             n: generators.number().min(5).max(10)
         };
 
-        while (i = 0) {
+        while (i != 0) {
             let {n} = create(F);
             expect(n).to.be.within(5, 10);
             i--;

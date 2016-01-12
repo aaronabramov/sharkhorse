@@ -12,6 +12,7 @@ import lorem from './generators/lorem';
 import name from './generators/name';
 import number from './generators/number';
 import sequence from './generators/sequence';
+import randomItem from './generators/random_item';
 
 export default {
     create,
@@ -21,5 +22,6 @@ export default {
     lorem,
     name,
     number,
-    sequence
+    sequence,
+    randomItem
 };
