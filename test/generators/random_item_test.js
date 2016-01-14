@@ -4,7 +4,7 @@ import {expect} from 'chai';
 import {create, generators} from '../../src';
 
 describe('generators/random_item', function() {
-    it.only('generates a random number', function() {
+    it('generates a random number', function() {
         let result = {a: 0, b: 0, c: 0};
         let RandomItem = generators.randomItem(['a', 'b', 'c']);
 

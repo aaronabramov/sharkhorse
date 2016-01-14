@@ -13,6 +13,7 @@ import name from './generators/name';
 import number from './generators/number';
 import sequence from './generators/sequence';
 import randomItem from './generators/random_item';
+import url from './generators/url';
 
 export default {
     create,
@@ -23,5 +24,6 @@ export default {
     name,
     number,
     sequence,
-    randomItem
+    randomItem,
+    url
 };

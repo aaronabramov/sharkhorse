@@ -5,7 +5,7 @@
  */
 
 import {markAsGenerator} from '../generator_token';
-import LOREM_IPSUM, {PARAGRAPHS, WORDS} from '../constants/lorem_ipsum';
+import {PARAGRAPHS, WORDS} from '../constants/lorem_ipsum';
 import PRNG from 'prng';
 
 const prng = new PRNG();
@@ -37,21 +37,21 @@ export default function lorem() {
     const generator = (function*() {
         for (;;) {
             switch (type) {
-                case 'paragraphs':
-                    yield _getNParagraphs(n);
-                    break;
-                case 'words':
-                    yield _getNWords(n);
-                    break;
-                default:
-                    throw new Error(`unknown type: ${type}`);
+            case 'paragraphs':
+                yield _getNParagraphs(n);
+                break;
+            case 'words':
+                yield _getNWords(n);
+                break;
+            default:
+                throw new Error(`unknown type: ${type}`);
             }
         }
     })();
 
     function next() {
         return generator.next().value;
-    };
+    }
 
     markAsGenerator(next);
 
@@ -59,25 +59,25 @@ export default function lorem() {
         type = 'words';
         n = value;
         return next;
-    }
+    };
 
     next.paragraphs = (value) => {
         type = 'paragraphs';
         n = value;
         return next;
-    }
+    };
 
     next.word = () => {
         type = 'words';
         n = 1;
         return next;
-    }
+    };
 
     next.paragraph = () => {
         type = 'paragraphs';
         n = 1;
         return next;
-    }
+    };
 
     return next;
 }
