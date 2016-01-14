@@ -38,17 +38,17 @@ export default function sequence() {
     next.decrement = () => {
         decrement = true;
         return next;
-    }
+    };
 
     next.startFrom = (value) => {
         n = value;
         return next;
-    }
+    };
 
     next.string = () => {
         string = true;
         return next;
-    }
+    };
 
     return next;
 }
