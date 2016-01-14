@@ -92,6 +92,17 @@ generators.email() // random_0@example.com, random_1@example.com
 ### `lorem()`
 generates random text
 
+### `templateString()`
+Tagged template string generator. Any generator passed as a template string value will be evaluated when passing the
+generator into `create` function
+
+```js
+let MyStr = generators.templateString`test${generators.sequence()}`;
+create(MyStr); // test1
+create(MyStr); // test2
+create(MyStr); // test3
+```
+
 ```js
 generators.lorem() // Lorem ipsum dolor sit amet, per in mazim...
 generators.lorem().word()
