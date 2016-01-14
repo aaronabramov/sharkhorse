@@ -14,6 +14,7 @@ import number from './generators/number';
 import sequence from './generators/sequence';
 import randomItem from './generators/random_item';
 import url from './generators/url';
+import templateString from './generators/template_string';
 
 export default {
     create,
@@ -25,5 +26,6 @@ export default {
     number,
     sequence,
     randomItem,
-    url
+    url,
+    templateString
 };
