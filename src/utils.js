@@ -26,6 +26,7 @@ export function deepMap(obj, replace) {
     if (!replace) {
         replace = (value) => { return value; };
     }
+
     obj = replace(obj);
 
     if (obj && obj.constructor === Array) {

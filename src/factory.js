@@ -9,6 +9,8 @@ import {isGenerator} from './generator_token';
 import invariant from './invariant';
 
 export function create(descriptor, attributes) {
+    let result;
+
     invariant(
         descriptor !== null && descriptor !== undefined,
         `'sharkhorse#create()' function expects an object as an argument. got '${descriptor}'`
@@ -18,7 +20,12 @@ export function create(descriptor, attributes) {
         return descriptor();
     }
 
-    let result = extend({}, descriptor, attributes);
+    if (descriptor.constructor.name === 'Array') {
+        invariant(!attributes, `Can't pass attributes when array is passed to \`create\``);
+        result = descriptor.map(el => el);
+    } else {
+        result = extend({}, descriptor, attributes);
+    }
 
 
     return deepMap(result, (node) => {

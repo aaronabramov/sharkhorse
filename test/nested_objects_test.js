@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 import {expect} from 'chai';
 import {create, generators} from '../src';
 
