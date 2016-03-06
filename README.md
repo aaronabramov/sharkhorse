@@ -110,6 +110,12 @@ generators.lorem().words(n)
 generators.lorem().paraghaph()
 generators.lorem().paraghaphs(n)
 ```
+### `date()`
+```js
+generators.date() // Date() object
+generators.date().jsTimestamp // 1457241758397
+generators.date().unixTimestamp // 1457241758
+```
 
 ### `create(FactoryDefinition)`
 generates a new factory object from the passed argument
