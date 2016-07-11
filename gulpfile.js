@@ -4,7 +4,13 @@ var babel = require('gulp-babel');
 gulp.task('transpile', function() {
     gulp.src('src/**/*.js')
         .pipe(babel({
-            optional: ['runtime']
+            presets: ['es2015'],
+            plugins: [
+                ['transform-runtime', {
+                    polyfill: false,
+                    regenerator: true
+                }]
+            ]
         }))
         .pipe(gulp.dest('package'));
 });

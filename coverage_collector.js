@@ -1,7 +1,5 @@
-require('babel/polyfill');
-
 var fs = require('fs');
-var babel = require('babel');
+var babel = require('babel-core');
 var istanbul = require('istanbul');
 var COV_VAR = '______coverage______';
 

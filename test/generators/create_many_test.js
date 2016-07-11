@@ -8,7 +8,7 @@ describe('generators/create_many', function() {
 
         expect(create(F2)).to.deep.equal({
             f: [{
-                a: 1,
+                a: 1
             }, {
                 a: 2
             }]

@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 module.exports = {
     rules: {
         indent: [
@@ -23,8 +21,9 @@ module.exports = {
         es6: true,
         node: true
     },
-    ecmaFeatures: {
-        modules: true
+    parserOptions: {
+        sourceType: 'module',
+        ecmaVersion: 6
     },
     extends: 'eslint:recommended'
 };
