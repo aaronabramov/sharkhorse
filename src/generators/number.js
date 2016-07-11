@@ -27,12 +27,12 @@ export default function number() {
     next.min = (value) => {
         min = value;
         return next;
-    }
+    };
 
     next.max = (value) => {
         max = value;
         return next;
-    }
+    };
 
     return next;
 }

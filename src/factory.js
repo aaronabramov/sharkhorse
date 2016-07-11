@@ -21,7 +21,7 @@ export function create(descriptor, attributes) {
     }
 
     if (descriptor.constructor.name === 'Array') {
-        invariant(!attributes, `Can't pass attributes when array is passed to \`create\``);
+        invariant(!attributes, 'Can\'t pass attributes when array is passed to `create`');
         result = descriptor.map(el => el);
     } else {
         result = extend({}, descriptor, attributes);

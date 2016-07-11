@@ -10,7 +10,7 @@
  * similar to `instanceof` but for functions
  */
 
-const IDENTIFIER = '8A12ABDF-FF00-4FDD-B8BD-EEC6B8D558F7'
+const IDENTIFIER = '8A12ABDF-FF00-4FDD-B8BD-EEC6B8D558F7';
 const TOKEN_PROP_NAME = 'sharkhorseGeneratorToken';
 import invariant from './invariant';
 

@@ -41,12 +41,12 @@ export default function date() {
     next.unixTimestamp = () => {
         timestamp = 'unix';
         return next;
-    }
+    };
 
     next.jsTimestamp = () => {
         timestamp = 'js';
         return next;
-    }
+    };
 
     return next;
 }

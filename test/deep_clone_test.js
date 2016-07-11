@@ -1,5 +1,3 @@
-
-
 import {expect} from 'chai';
 import {create, generators} from '../src';
 import _ from 'lodash';
@@ -12,9 +10,9 @@ describe('deep cloning', function() {
                     id: generators.sequence()
                 }
             }
-        }
+        };
 
-        let F2 = _.clone(F1, true)
+        let F2 = _.cloneDeep(F1, true);
 
         F2.nested1.nested2.id2 = generators.sequence();
 
@@ -30,9 +28,9 @@ describe('deep cloning', function() {
                     id: generators.sequence()
                 }
             }
-        }
+        };
 
-        let F2 = _.cloneDeep(F1)
+        let F2 = _.cloneDeep(F1);
 
         F2.nested1.nested2.id2 = generators.sequence();
 

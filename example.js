@@ -5,7 +5,7 @@ let Participant = Factory(function() {
         id: this.uuid(),
         name: this.uniqId('name_'),
         email: this.uniqId('a@b.')
-    }
+    };
 });
 
 let Message = Factory(function() {
@@ -14,7 +14,7 @@ let Message = Factory(function() {
         subject: this.uuid(),
         from: this.factory(Participant),
         to: this.factories(Participant, 2)
-    }
+    };
 });
 
 let MessageWithAttachments = Message.extend(function(defaults) {
