@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "babel-runtime": "~6.9.2",
-    "node-uuid": "^1.4.1",
-    "prng": "0.0.1"
+    "prng": "0.0.1",
+    "uuid": "^3.0.0"
   }
 }
