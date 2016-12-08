@@ -48,5 +48,15 @@ export default function date() {
         return next;
     };
 
+    next.from = (value) => {
+        from = Date.parse(value);
+        return next;
+    };
+
+    next.to = (value) => {
+        to = Date.parse(value);
+        return next;
+    };
+
     return next;
 }
