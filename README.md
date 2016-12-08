@@ -115,6 +115,7 @@ generators.lorem().paraghaphs(n)
 generators.date() // Date() object
 generators.date().jsTimestamp // 1457241758397
 generators.date().unixTimestamp // 1457241758
+generators.date().from('12-01-2016').to('12-31-2016') // Date() in December 2016
 ```
 
 ### `create(FactoryDefinition)`
