@@ -1,7 +1,7 @@
 {
   "name": "sharkhorse",
   "version": "4.0.0",
-  "description": "",
+  "description": "Javascript test factories",
   "main": "./package/index.js",
   "files": [
     "package/"
